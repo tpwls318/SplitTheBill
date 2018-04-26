@@ -6,6 +6,7 @@ exports.testGet = function(req, res) {
 
 exports.testPost = function(req, res) {
     console.log('$$$$$$$');
+    console.log(req.body);
     res.send('Hello POST!!!!');
 }
 
