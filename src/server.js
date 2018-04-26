@@ -16,6 +16,10 @@ app.prepare()
     app.render(req, res, actualPage, queryParams)
   })
 
+  server.get('/test', test.testGet);
+
+  server.post('/test', test.testPost);
+  
   server.get('*', (req, res) => {
     return handle(req, res)
   })

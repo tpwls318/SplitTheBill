@@ -130,3 +130,7 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+
+# Next forder
+.next
+
