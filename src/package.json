@@ -5,14 +5,22 @@
   "main": "index.js",
   "scripts": {
     "dev": "next",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "next build",
+    "server": "nodemon server"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "express": "^4.16.3",
+    "isomorphic-unfetch": "^2.0.0",
+    "mysql": "^2.15.0",
+    "mysql2": "^1.5.3",
     "next": "^5.1.0",
     "react": "^16.3.2",
-    "react-dom": "^16.3.2"
+    "react-dom": "^16.3.2",
+    "sequelize": "^4.37.6",
+    "styled-jsx": "^2.2.6"
   }
 }
