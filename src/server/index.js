@@ -19,19 +19,6 @@ app.prepare()
   // Parse forms (signup/login)
   server.use(bodyParser.urlencoded({ extended: true }));
 
-  var User=db.User;
-  server.get('/users', (req, res)=>{
-    User.findAll({
-      where: { 
-        id : {
-          $lt: 5
-        }
-      }
-    }).then( users => {
-      res.send( users.map( user => user.name) )
-      }    
-    )
-  })
   server.get('/p/:id', (req, res) => {
     const actualPage = '/post'
     const queryParams = { title: req.params.id }

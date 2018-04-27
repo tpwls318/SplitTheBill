@@ -131,6 +131,8 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
-# Next forder
+# Next folder
 .next
 
+package-lock.json
+yarn-error.log

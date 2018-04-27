@@ -9,7 +9,7 @@ export default class extends React.Component {
         // const data = await res.json()
         const people = await ['전한길', '서의환', '한영재', '이원복', '백영재', '박세진', '이준표', '이슬', '김재현', '이춘봉'];
     
-        return {people: people};
+        return {people};
     }
     state = {
         checked: {},
@@ -57,7 +57,7 @@ export default class extends React.Component {
         axios({
             method: 'post',
             url: 'http://127.0.0.1:3000/test',
-            data: data
+            data
           });
     }
     render() {
