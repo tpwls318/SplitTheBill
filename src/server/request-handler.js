@@ -55,7 +55,7 @@ const _countPeople = () => {
 const _addTable = (table) => {
     
         db.sequelize.sync({
-            force: false
+            force: true
         }).then(function() {
             // Step One: Create a Meal
             db.Meal.create({
