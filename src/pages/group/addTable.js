@@ -9,7 +9,7 @@ export default class extends React.Component {
         // const data = await res.json()
         const people = await ['전한길', '서의환', '한영재', '이원복', '백영재', '박세진', '이준표', '이슬', '김재현', '이춘봉'];
     
-        return {people: people};
+        return { people: people, roomname: 'immersive6', logedinUser: '전한길'};
     }
     state = {
         checked: {},
@@ -51,6 +51,8 @@ export default class extends React.Component {
         var data = {
             name,
             amount,
+            roomname: this.props.roomname,
+            logedinUser: this.props.logedinUser,
             people: arr
         }
         console.log(data);
