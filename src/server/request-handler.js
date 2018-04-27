@@ -128,7 +128,7 @@ exports.handleSignup = function(req, res) {
     console.log('$$$$$$$');
     
     db.User.findOne({
-        where: { name: req.body.id }
+        where: { userID: req.body.userID }
     }).then(function(result) {
         //console.log(result.dataValues);
         if(result) {
@@ -142,8 +142,8 @@ exports.handleSignup = function(req, res) {
                     console.log(hash);
                     db.User.create({
                         name: req.body.name,
-                        userid: req.body.id,
-                        password: req.body.password
+                        userID: req.body.userID,
+                        password: hash
                     }).then(function (user) {
                         console.log('save data to DB complete!!');
                         res.send();
@@ -165,16 +165,39 @@ exports.handleLogin = function(req, res) {
     console.log(req.body);
     
     db.User.findOne({
-        where: { userid: req.body.userid }
+        where: { userID: req.body.userID }
     }).then(function(result) {
-        console.log(result.dataValues);
+        if(result) {
+            console.log('exist');
+            bcrypt.compare(req.body.password, result.dataValues.password, function(err, truth) {
+                if(err) {
+                    console.log(err);
+                } else {
+                    if(truth) {
+                        console.log('login success');
+                        res.send('testtesttesttest');
+                        return;
+                    } else {
+                        console.log('login fail');
+                        res.send('failfailfailfail');
+                        return;
+                    }
+                }
+            });
+        } else {
+            console.log('not exist')
+        }
         // res.json(result);
+        // res.send('Hello Login!!!!');
     }).catch(function(err){
          //TODO: error handling
+         res.send(err);
     });
+}
 
-
-    res.send('Hello Login!!!!');
+exports.tmp = function(req, res) {
+    console.log('%%%%%%');
+    res.send('@@@@@@');
 }
 
 

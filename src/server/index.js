@@ -34,7 +34,7 @@ app.prepare()
   })
   
   server.get('/test', test.testGet);
-
+  server.get('/tmp', test.tmp);
   server.post('/test', test.testPost);
   server.post('/login', test.handleLogin);
   server.post('/signup', test.handleSignup);

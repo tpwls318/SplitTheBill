@@ -7,7 +7,7 @@ export default class extends React.Component {
     
     state = {
         name: '',
-        userid: '',
+        userID: '',
         password: '',
         cPassword: ''
     }
@@ -21,7 +21,7 @@ export default class extends React.Component {
     handleChangeId = (e) => {
         console.log(e.target.value);
         this.setState({
-            userid: e.target.value
+            userID: e.target.value
         })
     }
 
@@ -40,12 +40,12 @@ export default class extends React.Component {
     }
     
     handleClick = () => {
-        const { name, userid, password, cPassword  } = this.state;
+        const { name, userID, password, cPassword  } = this.state;
         if(password !== cPassword) {
             alert('비번이 같지 않아');
         }
         else {
-            const data = { name, userid, password, cPassword };
+            const data = { name, userID, password, cPassword };
         axios({
             method: 'post',
             url: 'http://127.0.0.1:3000/signup',
