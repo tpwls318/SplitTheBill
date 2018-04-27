@@ -14,10 +14,10 @@ class Index extends React.Component {
         
         return (
             <Layout>
-                <h1>Select Group</h1>
+                <h2>Select Group</h2>
                 <ul>
                 {this.props.users.map( user => (
-                   <PostLink user={user} />
+                   <GroupLink user={user} />
                 ))}
                 </ul>
             </Layout>
@@ -25,7 +25,7 @@ class Index extends React.Component {
     }
 }
 
-const PostLink = ({user}) => (
+const GroupLink = ({user}) => (
   <div>
     <Link prefetch href={`/group/table?title=${user}`}>
       <a>{user}</a>
@@ -34,21 +34,3 @@ const PostLink = ({user}) => (
 )
 
 export default Index;
-
-
-// const Index = (props) => (
-//   <Layout>
-//     <h1>Select Group</h1>
-//     {props.users.map( user => (
-//         <PostLink user={user} />
-//     ))}
-//   </Layout>
-// )
-
-// Index.getInitialProps = async function () {
-//     const users = await ['Immersive 6','Immersive 5','Immersive 4'];
-
-//     return {
-//         users: users
-//     }
-// }

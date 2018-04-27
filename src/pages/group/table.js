@@ -1,14 +1,8 @@
 import Layout from '../../components/Layout.js';
+import CheckBox from '../../components/CheckBox.js';
 import Groupheader from '../../components/group/Groupheader.js';
 import styled from 'styled-components';
-
-const PostLink = ({user}) => (
-    <Label>
-        <input type="checkbox" />
-        <span className="checkmark"></span>
-        {user}
-    </Label>
-  )
+import Link from 'next/link';
 
 class Table extends React.Component {
     static async getInitialProps () {
@@ -23,12 +17,12 @@ class Table extends React.Component {
         
         return (
             <Layout>
+                <Link href="/group/addTable">
                 <button>+table</button>
+                </Link>
                 <h1>{this.props.url.query.title}G</h1>
                 <Groupheader />
-                    {this.props.users.map( user => (
-                        <PostLink user={user} />
-                    ))}
+                <CheckBox users={this.props.users} />
             </Layout>
         );
     }
@@ -50,5 +44,3 @@ const Label = styled.label`
     -ms-user-select: none;
     user-select: none;
 `
-// const res = await fetch('C:/Users/rucky/Desktop/im-06-1st-prj-nobrain-noplan/src/fakedata.js');
-

@@ -12,6 +12,8 @@ const Receive = ({users}) => (
 const Container = styled.div`
     display: flex;
     flex-direction: column;
+    width:50%;
+    background-color: #636e72;
 `
 
 export default Receive;

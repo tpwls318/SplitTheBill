@@ -1,27 +1,44 @@
-import Link from 'next/link'
+import Link from 'next/link';
+import styled from 'styled-components';
+import { Drawer, RaisedButton, MenuItem, AppBar, FlatButton, IconButton  } from 'material-ui';
 
 const linkStyle = {
   marginRight: 15
 }
 
+
 const Header = () => (
     <div>
-        <Link href="/friend">
-          <a style={linkStyle}>Friend</a>
+      <MenuItem onClick={this.handleClose}>
+      <Link href="/friend">
+          <Alink>Friend</Alink>
         </Link>
-        <Link href="/group">
-          <a style={linkStyle}>Group</a>
+      </MenuItem>
+      <MenuItem onClick={this.handleClose}>
+      <Link href="/group">
+          <Alink>Group</Alink>
         </Link>
-        <Link href="/profile">
-          <a style={linkStyle}>Profile</a>
+      </MenuItem>
+      <MenuItem onClick={this.handleClose}>
+      <Link href="/profile">
+          <Alink>profile</Alink>
         </Link>
-        <Link href="/help">
-          <a style={linkStyle}>Help</a>
+      </MenuItem>
+      <MenuItem onClick={this.handleClose}>
+      <Link href="/help">
+          <Alink>help</Alink>
         </Link>
-        <Link href="/signin">
-          <a style={linkStyle}>Login</a>
+      </MenuItem>
+      <MenuItem onClick={this.handleClose}>
+      <Link href="/signin">
+          <Alink>signin</Alink>
         </Link>
+      </MenuItem>
     </div>
 )
 
+
+const Alink = styled.a`
+   marginRight: 15
+`
 export default Header
