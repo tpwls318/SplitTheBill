@@ -30,7 +30,7 @@ const Header = () => (
         </Link>
       </MenuItem>
       <MenuItem onClick={this.handleClose}>
-      <Link href="/signin">
+      <Link href="/signin/signup">
           <Alink>signin</Alink>
         </Link>
       </MenuItem>

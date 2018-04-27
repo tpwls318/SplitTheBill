@@ -131,7 +131,12 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
-# Next forder
+# Next folder
 .next
 
+<<<<<<< HEAD
 package-lock.json
+=======
+package-lock.json
+
+>>>>>>> 8d6b342b15e507d8640e86df6bb6680208b36a3f
