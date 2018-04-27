@@ -34,7 +34,6 @@ export default class extends React.Component {
         this.setState({
             name: e.target.value
         })
-        
     }
 
     handleChangeAmount = (e) => {
