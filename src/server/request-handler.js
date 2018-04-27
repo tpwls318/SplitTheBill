@@ -14,29 +14,38 @@ exports.testPost = function(req, res) {
 
 exports.handleSignup = function(req, res) {
     console.log('$$$$$$$');
-    console.log(req.body);
+    
     db.User.findOne({
-        where: { name: 'sergei' }
+        where: { name: req.body.id }
     }).then(function(result) {
-        console.log(result.dataValues);
+        //console.log(result.dataValues);
         if(result) {
             console.log('id 중복');
         } else {
             bcrypt.hash(req.body.password, null, null, function(err, hash) {
                 if(err) {
                   console.log('error');
+                  res.send();
                 } else {
-                  db.User.create
+                    console.log(hash);
+                    db.User.create({
+                        name: req.body.name,
+                        userid: req.body.id,
+                        password: req.body.password
+                    }).then(function (user) {
+                        console.log('save data to DB complete!!');
+                        res.send();
+                    }).catch(function(err) {
+                        console.log(err);
+                        res.send();
+                    })
                 }
             });  
         }
     }).catch(function(err){
         console.log(err);
+        res.send();
     });
-
-
-    
-    res.send('Hello POST!!!!');
 }
 
 exports.handleLogin = function(req, res) {
@@ -44,7 +53,7 @@ exports.handleLogin = function(req, res) {
     console.log(req.body);
     
     db.User.findOne({
-        where: { name: 'sergei' }
+        where: { userid: req.body.userid }
     }).then(function(result) {
         console.log(result.dataValues);
         // res.json(result);
