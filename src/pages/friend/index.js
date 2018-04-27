@@ -1,9 +1,11 @@
+import Layout from '../../components/Layout.js'
+
 const Index = () => (
-  <div>
+  <Layout>
       <h1>
           Friend
       </h1>
-  </div>
+  </Layout>
 );
 
 export default Index;
