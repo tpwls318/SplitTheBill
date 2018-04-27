@@ -3,24 +3,9 @@ var mysql = require('mysql');
 var mysql2 = require('mysql2');
 var app = express();
 var Sequelize = require('sequelize');
-// Create a database connection and export it from this file.
-// You will need to connect with the user "root", no password,
-// and to the database "chat".
-
-// exports.connection = mysql.createConnection({
-//   host     : 'localhost',
-//   user     : 'root',
-//   password : '',
-//   port     : 3306,
-//   database : 'bob'
-// });
-
-// exports.connection.connect();
 
 // sequelize
-
-
-var sequelize = new Sequelize('bob', 'root', 'asdqwe123', { 
+var sequelize = new Sequelize('bob', 'root', null, { 
   dialect: 'mysql', 
   operatorsAliases : true,
   host: 'localhost',
@@ -45,6 +30,8 @@ sequelize
 const User = sequelize.define('User', {
   id: {type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true},
   name: {type: Sequelize.STRING(32), allowNull: false},
+  userID: {type: Sequelize.STRING(32), allowNull: true},
+  password: {type: Sequelize.STRING(32), allowNull: true},
 }, {
   classMethods: {},
   freezeTableName: true,
@@ -81,26 +68,7 @@ Meal.belongsToMany(User, { through: UserMeal });
 Room.hasMany(Meal, {as: 'Menu'})
 User.belongsToMany(User, { through: UserUser, as: 'UserUser', foreignKey: 'from_id'});
 User.belongsToMany(User, { through: UserUser, as: 'UserUser2', foreignKey: 'to_id'});
-sequelize.sync({
-	force: true
-}).then(function() {
-	// Step One: Create a user
-	User.create({
-		name: 'sergei'
-	}).then(function (user) {
-		// Step Two: Create Room
-		return Room.create({
-			name: 'im06'
-		}).then(function (room) {
-			// Step Three: Add Room to user
-			return user.addRooms([room])
-		});
-	}).then(function () {
-		console.log('Everything worked, check the database.');
-	}).catch(function () {
-		console.log('Something went wrong. Catch was executed.');
-	});
-})
+
 /*  Create a '/users' route that responds to 
     a GET request with all users in the database */
 

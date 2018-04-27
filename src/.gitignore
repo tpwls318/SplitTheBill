@@ -135,4 +135,4 @@ $RECYCLE.BIN/
 .next
 
 package-lock.json
-
+yarn-error.log
