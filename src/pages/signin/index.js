@@ -13,7 +13,7 @@ export default class extends React.Component {
                 password: 1111
             }, 
             {
-                username: 'PSJ',
+                username: 'sergei',
                 password: 2222
             }, 
             {
@@ -43,7 +43,13 @@ export default class extends React.Component {
     }
     
     handleClick = () => {
-        
+        const { id, password } = this.state;
+        const data = { username: id, password: password };
+        axios({
+            method: 'post',
+            url: 'http://127.0.0.1:3000/login',
+            data: data
+        });
     }
     render() {
       return (

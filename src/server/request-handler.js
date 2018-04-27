@@ -1,8 +1,12 @@
 const db = require('./db/index');
+
 let User=db.User;
 let Meal=db.Meal;
 let UserMeal=db.UserMeal;
 let people= ['전한길', '서의환', '한영재', '이원복', '백영재', '박세진', '이준표', '이슬', '김재현', '춘봉안'];
+
+var bcrypt = require('bcrypt-nodejs');
+
 exports.testGet = function(req, res) {
     console.log('@@@@@@@@@');
     res.send('Hello Get!!!!');
@@ -16,6 +20,7 @@ exports.testPost = (req, res) => {
     _addMealtoRoom( req.body.roomname, req.body.name )
     res.send('Hello POST!!!!');
 }
+
 
 //   server.get('/users', (req, res)=>{
     // User.findAll({
@@ -118,4 +123,49 @@ const _addRoom = ( name, people ) => {
         }    
       )
  }
+
+exports.handleSignup = function(req, res) {
+    console.log('$$$$$$$');
+    console.log(req.body);
+    db.User.findOne({
+        where: { name: 'sergei' }
+    }).then(function(result) {
+        console.log(result.dataValues);
+        if(result) {
+            console.log('id 중복');
+        } else {
+            bcrypt.hash(req.body.password, null, null, function(err, hash) {
+                if(err) {
+                  console.log('error');
+                } else {
+                  db.User.create
+                }
+            });  
+        }
+    }).catch(function(err){
+        console.log(err);
+    });
+
+
+    
+    res.send('Hello POST!!!!');
+}
+
+exports.handleLogin = function(req, res) {
+    console.log('$$$$$$$');
+    console.log(req.body);
+    
+    db.User.findOne({
+        where: { name: 'sergei' }
+    }).then(function(result) {
+        console.log(result.dataValues);
+        // res.json(result);
+    }).catch(function(err){
+         //TODO: error handling
+    });
+
+
+    res.send('Hello Login!!!!');
+}
+
 
