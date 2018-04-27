@@ -1,15 +1,25 @@
 const express = require('express')
-const next = require('next')
-const test = require('./request-handler')
-const db = require('./db/index')
-const dev = process.env.NODE_ENV !== 'production'
-const app = next({ dev })
-const handle = app.getRequestHandler()
+const next = require('next');
+const test = require('./request-handler');
+const db = require('./db/index');
+const bodyParser = require('body-parser');
+const cors = require('cors');
+
+const dev = process.env.NODE_ENV !== 'production';
+const app = next({ dev });
+const handle = app.getRequestHandler();
 
 app.prepare()
 .then(() => {
-  const server = express()
-  var User=db.User
+  const server = express();
+
+  server.use(cors());
+  // Parse JSON (uniform resource locators)
+  server.use(bodyParser.json());
+  // Parse forms (signup/login)
+  server.use(bodyParser.urlencoded({ extended: true }));
+
+  var User=db.User;
   server.get('/users', (req, res)=>{
     User.findAll({
       where: { 

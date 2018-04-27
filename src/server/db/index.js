@@ -20,7 +20,7 @@ var Sequelize = require('sequelize');
 // sequelize
 
 
-var sequelize = new Sequelize('bob', 'root', null, { 
+var sequelize = new Sequelize('bob', 'root', 'asdqwe123', { 
   dialect: 'mysql', 
   operatorsAliases : true,
   host: 'localhost',
