@@ -3,7 +3,6 @@ var mysql = require('mysql');
 var mysql2 = require('mysql2');
 var app = express();
 var Sequelize = require('sequelize');
-
 // sequelize
 var sequelize = new Sequelize('bob', 'root', 'asdqwe123', { 
   dialect: 'mysql', 

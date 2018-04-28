@@ -1,4 +1,4 @@
-import Layout from '../../components/MyLayout.js'
+import Layout from '../../components/Layout.js'
 import fetch from 'isomorphic-unfetch'
 import React from 'react'
 import Link from 'next/link'
@@ -7,15 +7,16 @@ import axios from'axios';
 
 
 export default class extends React.Component {
-    static async getInitialProps({ res }) {
-      
-
-        return {}
+    static async getInitialProps () {
+        axios.get('/getSession').then(function (response) {
+            alert(response);
+        });
+        return {};
     }
 
     state = {
         userID: '',
-        password: '',
+        password: ''
     }
 
     handleChangeId = (e) => {
@@ -40,8 +41,11 @@ export default class extends React.Component {
             if(response.data === true) {
                 alert('success');
                 redirect('/');
+            } else if(response.data === false) {
+                alert('비밀번호 틀림');
+                redirect('/signin');
             } else {
-                alert('FAIL');
+                alert('존재하지 않는 아이디');
                 redirect('/signin');
             }
         }).catch(function (error) {

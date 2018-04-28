@@ -160,7 +160,13 @@ exports.handleSignup = function(req, res) {
         res.send();
     });
 }
-
+exports.getSession = function(req, res) {
+    res.send(req.session.sid);
+}
+exports.logout = function(req, res) {
+    delete req.session.sid;
+    res.send('logout');
+}
 exports.handleLogin = function(req, res) {
     console.log('$$$$$$$');
     console.log(req.body);
@@ -169,13 +175,14 @@ exports.handleLogin = function(req, res) {
         where: { userID: req.body.userID }
     }).then(function(result) {
         if(result) {
-            console.log('exist');
             bcrypt.compare(req.body.password, result.dataValues.password, function(err, truth) {
                 if(err) {
                     console.log(err);
                 } else {
                     if(truth) {
                         console.log('login success');
+                        req.session.sid = result.dataValues.id;
+                        //req.session.sid
                         res.send(true);
                         return;
                     } else {
