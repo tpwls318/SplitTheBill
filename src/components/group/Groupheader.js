@@ -1,24 +1,24 @@
 import Link from 'next/link'
+import styled from 'styled-components';
 
 const linkStyle = {
   marginRight: 15
 }
 
 const GroupHeader = () => (
-    <div>
-        <Link href="/friend">
-          <a style={linkStyle}>Table</a>
-        </Link>
-        <Link href="/group">
-          <a style={linkStyle}>Pay Man</a>
-        </Link>
-        <Link href="/profile">
-          <a style={linkStyle}>How Much</a>
-        </Link>
-        <Link href="/help">
-          <a style={linkStyle}>Date</a>
-        </Link>
-    </div>
+    <Div>
+          <Span>Chicken</Span>
+          <Span>Paymen</Span>
+          <Span>$100,100</Span>
+          <Span>18-04-28</Span>
+    </Div>
 )
+
+const Span = styled.span`
+  padding: 0.5em;
+`
+const Div = styled.div`
+  border-bottom: double;
+`
 
 export default GroupHeader;

@@ -1,12 +1,14 @@
 import styled from 'styled-components';
+import Checkbox from 'material-ui/Checkbox';
 
-const CheckBox = ({users}) => (
+const CheckBox = ({ checked, users, onClick }) => (
     <div>
-        {users.map( user =>(
-            <Label>
-                 <input type="checkbox" />
-                 <span className="checkmark"></span>
-                 {user}
+        {users.map( (user, index) =>(
+            <Label key={index} >
+                 <Checkbox label={user} 
+                 value={`p-${index}`}
+                 onClick={() => onClick(user)}
+                  />
             </Label>
         ))}
     </div>
@@ -14,9 +16,12 @@ const CheckBox = ({users}) => (
 
 export default CheckBox;
 
-const Input = styled.input`
-
-`
+// var Check = styled.input.attrs({
+//     type: 'checkbox'
+//   })`
+//     border: solid 1px red;
+//     background-color: red;
+//   `;
 
 
 const Label = styled.label`

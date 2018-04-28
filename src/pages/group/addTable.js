@@ -9,7 +9,8 @@ export default class extends React.Component {
         // const data = await res.json()
         const people = await ['전한길', '서의환', '한영재', '이원복', '백영재', '박세진', '이준표', '이슬', '김재현', '이춘봉'];
     
-        return { people: people, roomname: 'immersive6', logedinUser: '전한길'};
+        let roomname='immersive6', logedinUser= '전한길';
+        return { people, roomname, logedinUser};
     }
     state = {
         checked: {},
@@ -18,6 +19,8 @@ export default class extends React.Component {
     }
 
     handleCheck = (e) => {
+        console.log('dfdfdfdf',e);
+        
         const obj = this.state.checked;
         if(e.target.checked) {
             obj[e.target.value] = this.props.people[e.target.value.slice(2)];
@@ -44,22 +47,22 @@ export default class extends React.Component {
     
     handleClick = () => {
         const { checked, name, amount } = this.state;
-        var arr = [];
+        var people = [];
         for(var key in checked) {
-            arr.push(checked[key]);
+            people.push(checked[key]);
         }
         var data = {
             name,
             amount,
             roomname: this.props.roomname,
             logedinUser: this.props.logedinUser,
-            people: arr
+            people
         }
         console.log(data);
         axios({
             method: 'post',
             url: 'http://127.0.0.1:3000/test',
-            data: data
+            data
           });
     }
     render() {
