@@ -19,7 +19,7 @@ export default class extends React.Component {
     }
 
     handleCheck = (e) => {
-        console.log('dfdfdfdf',e);
+        console.log('dfdfdfdf',e);  
         
         const obj = this.state.checked;
         if(e.target.checked) {

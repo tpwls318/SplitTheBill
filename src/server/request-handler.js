@@ -255,15 +255,15 @@ exports.handleSignup = function(req, res) {
     console.log('$$$$$$$');
     console.log(req.body);
     User.findOne({
-        where: { name: 'sergei' }
+        where: { userID: req.body.userID }
     }).then(function(result) {
-        console.log(result.dataValues);
         if(result) {
             console.log('id 중복');
+            res.send(false)
         } else {
             bcrypt.hash(req.body.password, null, null, function(err, hash) {
                 if(err) {
-                  console.log('error');
+                  console.log(err);
                   res.send();
                 } else {
                     console.log(hash);
@@ -276,7 +276,7 @@ exports.handleSignup = function(req, res) {
                         res.send(true);
                     }).catch(function(err) {
                         console.log(err);
-                        res.send();
+                        res.send(err);
                     })
                 }
             });  
@@ -286,8 +286,8 @@ exports.handleSignup = function(req, res) {
         res.send();
     });
 }
-exports.getSession = function(req, res) {
-    res.send(req.session.sid);
+exports.getSid = function(req, res) {
+    res.send('######################');
 }
 exports.logout = function(req, res) {
     delete req.session.sid;
@@ -307,8 +307,7 @@ exports.handleLogin = function(req, res) {
                 } else {
                     if(truth) {
                         console.log('login success');
-                        req.session.sid = result.dataValues.id;
-                        //req.session.sid
+                        req.session.sid = result.dataValues.userID;
                         res.send(true);
                         return;
                     } else {
