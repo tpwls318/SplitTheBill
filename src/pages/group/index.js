@@ -9,7 +9,7 @@ class Index extends React.Component {
         const groups = await ['Immersive6','Immersive5','Immersive4'];
 
         return {
-            groups: groups
+            groups
         }
     }
 
