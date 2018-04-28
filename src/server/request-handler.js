@@ -67,7 +67,8 @@ const _mealMap = async (meals, data) => {
     })
 }
 exports.createRoom = (req, res) => {
-    _addRoom(req.body.roomname, req.body.roomMembers)
+    req.body.people.push(req.body.logedinUser)
+    _addRoom(req.body.roomname, req.body.people)
 }
 
 exports.getRooms = (req, res) => {
