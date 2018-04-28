@@ -44,6 +44,7 @@ app.prepare()
   server.get('/getRooms', reqHandler.getRooms);
   server.get('/getTables', reqHandler.getTables);
   server.get('/logout', reqHandler.logout);
+  server.get('/getSid', reqHandler.getSid);
 
   server.post('/test', reqHandler.testPost);
   server.post('/login', reqHandler.handleLogin);

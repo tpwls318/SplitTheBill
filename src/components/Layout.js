@@ -21,6 +21,7 @@ export default class Layout extends React.Component {
   render() {
     return (
       <MuiThemeProvider>
+        <div>
         <AppBar
           title={<StyledSpan>Title</StyledSpan>}
           onLeftIconButtonClick={this.handleToggle}
@@ -31,6 +32,7 @@ export default class Layout extends React.Component {
           <AppBar title="AppBar" onClick={this.handleToggle}/>
           <Header />
         </Drawer>
+        </div>
       </MuiThemeProvider>
     );
   }
