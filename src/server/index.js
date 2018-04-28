@@ -14,7 +14,12 @@ const handle = app.getRequestHandler();
 app.prepare()
 .then(() => {
   const server = express();
-
+  server.use(cookieParser());
+  server.use(session({
+    secret: 'keyboard cat',
+    resave: false,
+    saveUninitialized: true
+  }));
   server.use(cors());
   // Parse JSON (uniform resource locators)
   server.use(bodyParser.json());
@@ -34,10 +39,11 @@ app.prepare()
   })
   
   server.get('/test', test.testGet);
-
+  server.get('/tmp', test.tmp);
   server.post('/test', test.testPost);
   server.post('/login', test.handleLogin);
   server.post('/signup', test.handleSignup);
+  server.get('/logout', test.logout);
   
   server.get('*', (req, res) => {
     return handle(req, res)

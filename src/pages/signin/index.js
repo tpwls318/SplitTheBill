@@ -1,37 +1,28 @@
 import Layout from '../../components/Layout.js'
 import fetch from 'isomorphic-unfetch'
-const axios = require('axios');
+import React from 'react'
+import Link from 'next/link'
+import redirect from '../../lib/redirect';
+import axios from'axios';
 
 
 export default class extends React.Component {
     static async getInitialProps () {
-        // const res = await fetch('https://api.tvmaze.com/search/shows?q=batman')
-        // const data = await res.json()
-        const people = await [
-            {
-                username: 'oneway',
-                password: 1111
-            }, 
-            {
-                username: 'sergei',
-                password: 2222
-            }, 
-            {
-                username: 'KJH',
-                password: 1111
-            }];
-    
-        return {people: people};
+        axios.get('/getSession').then(function (response) {
+            alert(response);
+        });
+        return {};
     }
+
     state = {
-        id: '',
+        userID: '',
         password: ''
     }
 
     handleChangeId = (e) => {
         console.log(e.target.value);
         this.setState({
-            id: e.target.value
+            userID: e.target.value
         })
     }
 
@@ -43,14 +34,26 @@ export default class extends React.Component {
     }
     
     handleClick = () => {
-        const { id, password } = this.state;
-        const data = { username: id, password: password };
-        axios({
-            method: 'post',
-            url: 'http://127.0.0.1:3000/login',
-            data: data
+        const { userID, password } = this.state;
+        const data = { userID: userID, password: password };
+        axios.post('/login', data).then(function (response) {
+            console.log(response);
+            if(response.data === true) {
+                alert('success');
+                redirect('/');
+            } else if(response.data === false) {
+                alert('비밀번호 틀림');
+                redirect('/signin');
+            } else {
+                alert('존재하지 않는 아이디');
+                redirect('/signin');
+            }
+        }).catch(function (error) {
+            console.log(error);
         });
     }
+
+ 
     render() {
       return (
         <Layout>
@@ -58,6 +61,9 @@ export default class extends React.Component {
                 <p>id : <input type="text" onChange={this.handleChangeId}/></p>
                 <p>password : <input type="password" onChange={this.handleChangePW}/></p>
                 <p><button onClick={this.handleClick}>Login</button></p>
+                <Link href="/signin/signup">
+                    <p><button onClick={this.handleClick}>Sign up</button></p>
+                </Link>
             </div>
         </Layout>
     )}
