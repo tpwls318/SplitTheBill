@@ -49,7 +49,7 @@ app.prepare()
   server.post('/test', reqHandler.testPost);
   server.post('/login', reqHandler.handleLogin);
   server.post('/signup', reqHandler.handleSignup);
-
+  server.post('/createRoom', reqHandler.createRoom);
   
   server.get('*', (req, res) => {
     return handle(req, res)
