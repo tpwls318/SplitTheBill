@@ -8,20 +8,21 @@ import axios from'axios';
 
 export default class extends React.Component {
     static async getInitialProps () {
-        this.getSession();
-        return {};
+        var sid = axios.get('/getSid').catch(function(error) {
+            console.log('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$');
+            console.log(error.response.data);
+            console.log(error.response.status);
+            console.log(error.response.headers);
+        })
+        return { sid: sid };
     }
 
     state = {
         userID: '',
-        password: ''
+        password: '',
+        sid: ''
     }
 
-    getSession = () => {
-        axios.get('/getSession').then(function (response) {
-            alert(response);
-        });
-    }
     handleChangeId = (e) => {
         console.log(e.target.value);
         this.setState({
@@ -56,10 +57,16 @@ export default class extends React.Component {
         });
     }
 
+    routeSignin = () => {
+        console.log('@@@@###')
+        console.log(this.props.sid);
+    }
+
  
     render() {
       return (
         <Layout>
+            {this.routeSignin()}
             <div>
                 <p>id : <input type="text" onChange={this.handleChangeId}/></p>
                 <p>password : <input type="password" onChange={this.handleChangePW}/></p>

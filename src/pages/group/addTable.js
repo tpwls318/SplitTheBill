@@ -7,7 +7,7 @@ export default class extends React.Component {
     static async getInitialProps () {
         // const res = await fetch('https://api.tvmaze.com/search/shows?q=batman')
         // const data = await res.json()
-        const people = await ['전한길', '서의환', '한영재', '이원복', '백영재', '박세진', '이준표', '이슬', '김재현', '이춘봉'];
+        const people = await ['전한길', '서의환', '한영재', '이원복', '백영재', '박세진', '이준표', '이슬', '김재현', '춘봉안'];
     
         let roomname='immersive6', logedinUser= '전한길';
         return { people, roomname, logedinUser};

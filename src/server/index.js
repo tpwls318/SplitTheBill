@@ -1,6 +1,6 @@
 const express = require('express');
 const next = require('next');
-const test = require('./request-handler');
+const reqHandler = require('./request-handler');
 const db = require('./db/index');
 const bodyParser = require('body-parser');
 const cors = require('cors');
@@ -38,13 +38,18 @@ app.prepare()
     app.render(req, res, actualPage, queryParams)
   })
   
-  server.get('/test', test.testGet);
-  server.get('/tmp', test.tmp);
-  server.post('/test', test.testPost);
-  server.post('/login', test.handleLogin);
-  server.post('/signup', test.handleSignup);
-  server.get('/logout', test.logout);
-  server.get('/getSession', test.getSession);
+
+  server.get('/test', reqHandler.testGet);
+  server.get('/tmp', reqHandler.tmp);
+  server.get('/getRooms', reqHandler.getRooms);
+  server.get('/getTables', reqHandler.getTables);
+  server.get('/logout', reqHandler.logout);
+  server.get('/getSid', reqHandler.getSid);
+
+  server.post('/test', reqHandler.testPost);
+  server.post('/login', reqHandler.handleLogin);
+  server.post('/signup', reqHandler.handleSignup);
+
   
   server.get('*', (req, res) => {
     return handle(req, res)
