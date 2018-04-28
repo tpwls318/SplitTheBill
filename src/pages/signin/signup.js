@@ -1,6 +1,7 @@
 import Layout from '../../components/MyLayout.js'
 import fetch from 'isomorphic-unfetch'
-const axios = require('axios');
+import axios from'axios';
+import redirect from '../../lib/redirect';
 
 
 export default class extends React.Component {
@@ -46,11 +47,18 @@ export default class extends React.Component {
         }
         else {
             const data = { name, userID, password, cPassword };
-        axios({
-            method: 'post',
-            url: 'http://127.0.0.1:3000/signup',
-            data: data
-        });
+            axios.post('/signup', data).then(function (response) {
+                console.log(response);
+                if(response.data === true) {
+                    alert('가입완료');
+                    redirect('/signin');
+                } else {
+                    alert('아이디 중복');
+                    redirect('/signin/signup');
+                }
+            }).catch(function (error) {
+                console.log(error);
+            });
         }
     }
     render() {

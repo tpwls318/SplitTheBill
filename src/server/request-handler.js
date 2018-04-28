@@ -133,6 +133,7 @@ exports.handleSignup = function(req, res) {
         //console.log(result.dataValues);
         if(result) {
             console.log('id 중복');
+            res.send(false)
         } else {
             bcrypt.hash(req.body.password, null, null, function(err, hash) {
                 if(err) {
@@ -146,7 +147,7 @@ exports.handleSignup = function(req, res) {
                         password: hash
                     }).then(function (user) {
                         console.log('save data to DB complete!!');
-                        res.send();
+                        res.send(true);
                     }).catch(function(err) {
                         console.log(err);
                         res.send();
@@ -175,11 +176,11 @@ exports.handleLogin = function(req, res) {
                 } else {
                     if(truth) {
                         console.log('login success');
-                        res.send('testtesttesttest');
+                        res.send(true);
                         return;
                     } else {
                         console.log('login fail');
-                        res.send('failfailfailfail');
+                        res.send(false);
                         return;
                     }
                 }
