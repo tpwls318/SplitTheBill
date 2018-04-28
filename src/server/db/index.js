@@ -4,7 +4,7 @@ var mysql2 = require('mysql2');
 var app = express();
 var Sequelize = require('sequelize');
 // sequelize
-var sequelize = new Sequelize('bob', 'root', 'asdqwe123', { 
+var sequelize = new Sequelize('bob', 'root', null, { 
   dialect: 'mysql', 
   operatorsAliases : true,
   host: 'localhost',
@@ -47,7 +47,8 @@ const Room = sequelize.define('Room', {
 const Meal = sequelize.define('Meal', {
   id: {type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true},
   name: {type: Sequelize.STRING(32), allowNull: false},
-  amount: {type: Sequelize.INTEGER}
+  amount: {type: Sequelize.INTEGER},
+  buyer: {type: Sequelize.STRING(32), allowNull: false},
 }, {
   classMethods: {},
   freezeTableName: true,
