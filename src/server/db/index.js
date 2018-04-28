@@ -31,7 +31,7 @@ const User = sequelize.define('User', {
   id: {type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true},
   name: {type: Sequelize.STRING(32), allowNull: false},
   userID: {type: Sequelize.STRING(32), allowNull: true},
-  password: {type: Sequelize.STRING(32), allowNull: true},
+  password: {type: Sequelize.STRING(255), allowNull: true},
 }, {
   classMethods: {},
   freezeTableName: true,
@@ -48,7 +48,8 @@ const Room = sequelize.define('Room', {
 const Meal = sequelize.define('Meal', {
   id: {type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true},
   name: {type: Sequelize.STRING(32), allowNull: false},
-  amount: {type: Sequelize.INTEGER}
+  amount: {type: Sequelize.INTEGER},
+  buyer: {type: Sequelize.STRING(32), allowNull: false},
 }, {
   classMethods: {},
   freezeTableName: true,
