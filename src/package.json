@@ -13,7 +13,12 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@material-ui/icons": "^1.0.0-beta.43",
+    "admin-on-rest": "^1.4.1",
     "axios": "^0.18.0",
+    "babel-plugin-styled-components": "^1.5.1",
+    "components": "^0.1.0",
+    "isomorphic": "0.0.11",
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.18.2",
     "cookie-parser": "^1.4.3",
@@ -21,12 +26,15 @@
     "express": "^4.16.3",
     "express-session": "^1.15.6",
     "isomorphic-unfetch": "^2.0.0",
+    "material-ui": "^0.20.0",
     "mysql": "^2.15.0",
     "mysql2": "^1.5.3",
     "next": "^5.1.0",
     "react": "^16.3.2",
     "react-dom": "^16.3.2",
     "sequelize": "^4.37.6",
+    "styled": "^1.0.0",
+    "styled-components": "^3.2.6",
     "styled-jsx": "^2.2.6"
   }
 }

@@ -3,9 +3,10 @@ var mysql = require('mysql');
 var mysql2 = require('mysql2');
 var app = express();
 var Sequelize = require('sequelize');
-
 // sequelize
-var sequelize = new Sequelize('bob', 'root', null, { 
+
+
+var sequelize = new Sequelize('bob', 'root', 'kkhs1125', { 
   dialect: 'mysql', 
   operatorsAliases : true,
   host: 'localhost',
@@ -68,6 +69,15 @@ Meal.belongsToMany(User, { through: UserMeal });
 Room.hasMany(Meal, {as: 'Menu'})
 User.belongsToMany(User, { through: UserUser, as: 'UserUser', foreignKey: 'from_id'});
 User.belongsToMany(User, { through: UserUser, as: 'UserUser2', foreignKey: 'to_id'});
+sequelize.sync({
+  force: false
+}).then(function () {
+      console.log('Everything worked, check the database.');
+      _countPeople();
+  }).catch(function () {
+      console.log('Something went wrong. Catch was executed.');
+  });
+
 
 /*  Create a '/users' route that responds to 
     a GET request with all users in the database */

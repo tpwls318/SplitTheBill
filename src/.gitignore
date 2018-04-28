@@ -134,5 +134,13 @@ $RECYCLE.BIN/
 # Next folder
 .next
 
+<<<<<<< HEAD
 package-lock.json
+=======
+package-lock.json
+<<<<<<< HEAD
+
+>>>>>>> 8d6b342b15e507d8640e86df6bb6680208b36a3f
+=======
 yarn-error.log
+>>>>>>> bd6b80662865c411659a224a33475e5b6cddebc6
