@@ -1,13 +1,14 @@
-import Layout from '../../components/MyLayout.js'
+import Layout from '../../components/Layout.js'
 import fetch from 'isomorphic-unfetch'
-const axios = require('axios');
+import axios from'axios';
+import redirect from '../../lib/redirect';
 
 
 export default class extends React.Component {
     
     state = {
         name: '',
-        id: '',
+        userID: '',
         password: '',
         cPassword: ''
     }
@@ -21,7 +22,7 @@ export default class extends React.Component {
     handleChangeId = (e) => {
         console.log(e.target.value);
         this.setState({
-            id: e.target.value
+            userID: e.target.value
         })
     }
 
@@ -40,17 +41,24 @@ export default class extends React.Component {
     }
     
     handleClick = () => {
-        const { name, id, password, cPassword  } = this.state;
+        const { name, userID, password, cPassword  } = this.state;
         if(password !== cPassword) {
             alert('비번이 같지 않아');
         }
         else {
-            const data = { name, id, password, cPassword };
-        axios({
-            method: 'post',
-            url: 'http://127.0.0.1:3000/signup',
-            data: data
-        });
+            const data = { name, userID, password, cPassword };
+            axios.post('/signup', data).then(function (response) {
+                console.log(response);
+                if(response.data === true) {
+                    alert('가입완료');
+                    redirect('/signin');
+                } else {
+                    alert('아이디 중복');
+                    redirect('/signin/signup');
+                }
+            }).catch(function (error) {
+                console.log(error);
+            });
         }
     }
     render() {

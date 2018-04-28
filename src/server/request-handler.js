@@ -264,32 +264,74 @@ exports.handleSignup = function(req, res) {
             bcrypt.hash(req.body.password, null, null, function(err, hash) {
                 if(err) {
                   console.log('error');
+                  res.send();
                 } else {
-                  User.create
+                    console.log(hash);
+                    db.User.create({
+                        name: req.body.name,
+                        userID: req.body.userID,
+                        password: hash
+                    }).then(function (user) {
+                        console.log('save data to DB complete!!');
+                        res.send(true);
+                    }).catch(function(err) {
+                        console.log(err);
+                        res.send();
+                    })
                 }
             });  
         }
     }).catch(function(err){
         console.log(err);
+        res.send();
     });
-
-
-    
-    res.send('Hello POST!!!!');
 }
-
+exports.getSession = function(req, res) {
+    res.send(req.session.sid);
+}
+exports.logout = function(req, res) {
+    delete req.session.sid;
+    res.send('logout');
+}
 exports.handleLogin = function(req, res) {
     console.log('$$$$$$$');
     console.log(req.body);
     
-    User.findOne({
-        where: { name: 'sergei' }
+    db.User.findOne({
+        where: { userID: req.body.userID }
     }).then(function(result) {
-        console.log(result.dataValues);
+        if(result) {
+            bcrypt.compare(req.body.password, result.dataValues.password, function(err, truth) {
+                if(err) {
+                    console.log(err);
+                } else {
+                    if(truth) {
+                        console.log('login success');
+                        req.session.sid = result.dataValues.id;
+                        //req.session.sid
+                        res.send(true);
+                        return;
+                    } else {
+                        console.log('login fail');
+                        res.send(false);
+                        return;
+                    }
+                }
+            });
+        } else {
+            console.log('not exist')
+        }
         // res.json(result);
+        // res.send('Hello Login!!!!');
     }).catch(function(err){
          //TODO: error handling
+         res.send(err);
     });
-    res.send('Hello Login!!!!');
 }
+
+exports.tmp = function(req, res) {
+    console.log('%%%%%%');
+    res.send('@@@@@@');
+}
+
 
