@@ -44,6 +44,7 @@ app.prepare()
   server.post('/login', test.handleLogin);
   server.post('/signup', test.handleSignup);
   server.get('/logout', test.logout);
+  server.get('/getSession', test.getSession);
   
   server.get('*', (req, res) => {
     return handle(req, res)

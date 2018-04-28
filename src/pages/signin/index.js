@@ -8,9 +8,7 @@ import axios from'axios';
 
 export default class extends React.Component {
     static async getInitialProps () {
-        axios.get('/getSession').then(function (response) {
-            alert(response);
-        });
+        this.getSession();
         return {};
     }
 
@@ -19,6 +17,11 @@ export default class extends React.Component {
         password: ''
     }
 
+    getSession = () => {
+        axios.get('/getSession').then(function (response) {
+            alert(response);
+        });
+    }
     handleChangeId = (e) => {
         console.log(e.target.value);
         this.setState({
