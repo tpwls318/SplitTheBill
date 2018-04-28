@@ -51,8 +51,11 @@ export default class extends React.Component {
             method: 'post',
             url: 'http://127.0.0.1:3000/test',
             data: data
-          });
+          }).catch( (err) => {
+            if( err ) console.log('this is index Err!!!',err);
+        });
     }
+    
     render() {
       return (
         <Layout>

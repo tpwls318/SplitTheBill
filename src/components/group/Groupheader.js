@@ -7,10 +7,10 @@ const linkStyle = {
 
 const GroupHeader = ({meal}) => (
     <Div>
-          <Span>{meal[0]}</Span>
-          <Span>{meal[1]}</Span>
-          <Span>{meal[2]}</Span>
-          <Span>{meal[3]}</Span>
+          <Span>{meal.name}</Span>
+          <Span>{meal.buyer}</Span>
+          <Span>{meal.amount}</Span>
+          <Span>{meal.createdAt}</Span>
     </Div>
 )
 

@@ -1,11 +1,12 @@
 import styled from 'styled-components';
 import Checkbox from 'material-ui/Checkbox';
 
-const CheckBox = ({ money, checked, users, onClick }) => (
+const CheckBox = ({ meal, checked, onClick }) => (
     <div>
-        {users.map( (user, index) =>(
-            <Label key={index} >
-                 <Checkbox label={`${user}   :   ${money}`}
+        {meal.members.map( (user, index) =>(
+            <Label >
+                 <Checkbox label={`${user}   : ${ (meal.amount) / (meal.members.length+1) } `}
+                 key={index}
                  value={`p-${index}`}
                  onClick={(e) => onClick(e)}
                   />
