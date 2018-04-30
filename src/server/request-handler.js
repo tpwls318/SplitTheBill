@@ -321,7 +321,8 @@ exports.handleLogin = function(req, res) {
                 }
             });
         } else {
-            console.log('not exist')
+            console.log('not exist');
+            res.send('not exist');
         }
         // res.json(result);
         // res.send('Hello Login!!!!');
