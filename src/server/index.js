@@ -42,10 +42,10 @@ app.prepare()
   server.get('/test', reqHandler.testGet);
   server.get('/tmp', reqHandler.tmp);
   server.get('/getRooms', reqHandler.getRooms);
-  server.get('/getTables', reqHandler.getTables);
   server.get('/logout', reqHandler.logout);
   server.get('/getSid', reqHandler.getSid);
 
+  server.post('/getTables', reqHandler.getTables);
   server.post('/test', reqHandler.testPost);
   server.post('/login', reqHandler.handleLogin);
   server.post('/signup', reqHandler.handleSignup);

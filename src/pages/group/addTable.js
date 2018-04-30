@@ -1,17 +1,13 @@
 import Layout from '../../components/Layout.js'
-import fetch from 'isomorphic-unfetch'
-const axios = require('axios');
+import axios from 'axios';
 import styled from 'styled-components';
-import Insert from './UserInsert.js';
-// import MobileTearSheet from './MobileTearSheet';
+import Insert from '../../components/group/UserInsert.js';
 
 class addTable extends React.Component {
-    static async getInitialProps () {
-        // const res = await fetch('https://api.tvmaze.com/search/shows?q=batman')
-        // const data = await res.json()
+    static async getInitialProps (props) {
+        console.log('fdfdfdfdfdfdfd',props.query.title);
         const people = await ['전한길', '서의환', '한영재', '이원복', '백영재', '박세진', '이준표', '이슬', '김재현', '춘봉안'];
-    
-        let roomname='immersive6', logedinUser= '전한길';
+        let roomname= props.query.title, logedinUser= '전한길';
         return { people, roomname, logedinUser};
     }
     state = {
@@ -21,7 +17,7 @@ class addTable extends React.Component {
     }
 
     handleCheck = (e) => {
-        console.log('dfdfdfdf',e.target);
+        console.log(e.target);
         
         const obj = this.state.checked;
         if(e.target.checked) {
@@ -48,6 +44,7 @@ class addTable extends React.Component {
     }
     
     handleClick = () => {
+        
         const { checked, name, amount } = this.state;
         var people = [];
         for(var key in checked) {
@@ -66,7 +63,7 @@ class addTable extends React.Component {
             url: 'http://127.0.0.1:3000/test',
             data
           }).catch( (err) => {
-            if( err ) console.log('this is index Err!!!',err);
+            if( err ) console.log('this is addTable Err!!!',err);
         });
     }
 
@@ -76,9 +73,7 @@ class addTable extends React.Component {
             <Container>
                 <Input type="text" placeholder="Tablename" onChange={this.handleChangeName}/>
                 <Input type="text" placeholder="Amount" onChange={this.handleChangeAmount}/>
-                {this.props.people.map((item, index) => (
-                    <label key={index}><input type="checkbox" onChange={this.handleCheck} value={`p-${index}`} />{item}</label>
-                ))}
+                <Insert users={this.props.people} onCheck={this.handleCheck} />
                 <Btn>
                     <Button onClick={this.handleClick} prime >Create</Button>
                     <Button>Cancel</Button>

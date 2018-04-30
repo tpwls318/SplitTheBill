@@ -15,12 +15,14 @@ class Good extends React.Component {
         }
     }
 
-    handleClick = (e) => {
-        console.log('dfdfdfdfd', e.target.value);
+    handleClick = (group) => {
+        // console.log('dfdfdfdfdssssssssssssssssssss', group);
         Axios({
             method: 'post',
-            url: 'http://127.0.0.1:3000/test',
-            data: e.target.value
+            url: 'http://127.0.0.1:3000/getTables',
+            data: {
+                roomname : group
+            }
           });
     }
 
@@ -33,20 +35,20 @@ class Good extends React.Component {
                     <a>dfdf</a>
                     </Link>
                 </AddButton>
-                <ul>
+                <Ul>
                 {this.props.groups.map( (group, index) => (
                    <GroupLink group={group} key={index} onClick={ this.handleClick } />
                 ))}
-                </ul>
+                </Ul>
             </Layout>
         );
     }
 }
 
-const GroupLink = ({group, onClick}) => (
-  <DivLink onClick={ onClick } >
-    <Link prefetch as={`/group/${group}`}href={`/group/table?title=${group}`}  >
-      <button value={group} >{group}</button>
+const GroupLink = ({ group, onClick }) => (
+  <DivLink onClick ={ () => onClick(group) }   >
+    <Link prefetch as={`/group/${group}`} href={`/group/table?title=${group}`}  >
+      <H3 value={group} >{group}</H3>
     </Link>
   </DivLink>
 )
@@ -67,7 +69,20 @@ const AddButton = styled.div`
     width: 56px;
     border-radius: 28px;
 `
+const Ul = styled.ul`
+    list-style-type: none;
+    padding-left: 1em;
+    padding-right: 1em;
+`
+const H3 = styled.h3`
+    margin: 0 auto;
+`
+
 const DivLink = styled.div`
     padding: 20px;
-    order: 1px solid red;
+    border-bottom: 1px solid red;
+    &:hover {
+        background: #eee;
+        cursor: pointer;
+    }
 `

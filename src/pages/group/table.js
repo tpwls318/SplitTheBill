@@ -6,11 +6,11 @@ import Link from 'next/link';
 import Axios from 'axios';
 
 class Table extends React.Component {
-    static async getInitialProps () {
-        // const users = await Axios.get(`/${this.props.url.query.title}`);
-        const data = await Axios.get('/gettables')
-        .catch( (err) => {
-            if( err ) console.log('this is index Err!!!',err);
+    static async getInitialProps (props) { 
+        const data = await Axios.post('/getTables', {
+            roomname: props.query.title
+        }).catch( (err) => {
+            if( err ) console.log('this is Table Err!!!',err);
         });
 
         return {
@@ -19,10 +19,8 @@ class Table extends React.Component {
     }
 
     state = {
-        checked: {},
-        
+        checked: {}
     }
-
 
     handleCheck = (e) => {
         const obj = this.state.checked;
@@ -39,8 +37,6 @@ class Table extends React.Component {
 
 
     render() {
-        // console.log('dfdfdfd',this.props.data);
-        
         return (
             <Layout>
                 <Container>
