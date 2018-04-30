@@ -5,7 +5,7 @@ import Link from 'next/link'
 import redirect from '../../lib/redirect';
 import axios from'axios';
 import Router from 'next/router'; 
-
+import styled from 'styled-components';
 
 export default class extends React.Component {
     static async getInitialProps ({ req }) {
@@ -66,14 +66,60 @@ export default class extends React.Component {
     render() {
       return (
         <Layout>
-            <div>
-                <p>id : <input type="text" onChange={this.handleChangeId}/></p>
-                <p>password : <input type="password" onChange={this.handleChangePW}/></p>
-                <p><button onClick={this.handleClick}>Login</button></p>
-                <Link href="/signin/signup">
-                    <p><button>Sign up</button></p>
-                </Link>
-            </div>
+            <Container>
+                <Col>
+                    <Input type="text" placeholder="Your id" onChange={this.handleChangeId}/>
+                    <Input type="password" placeholder="Your password" onChange={this.handleChangePW}/>
+                    <Button onClick={this.handleClick}>Login</Button>
+                    <Link href="/signin/signup">
+                        <Button>Sign up</Button>
+                    </Link>
+                </Col>
+            </Container>
         </Layout>
     )}
 }
+
+
+const Container = styled.div`
+    position: relative;
+    border-radius: 5px;
+    background-color: #f2f2f2;
+    padding: 20px 0 30px 0;
+`
+const Col = styled.div`
+    margin: auto;
+    padding: 3em;
+`
+
+const Input = styled.input`
+    box-sizing: border-box;
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 4px;
+    margin: 5px 0;
+    opacity: 0.85;
+    display: inline-block;
+    font-size: 17px;
+    line-height: 20px;
+    text-decoration: none;
+`
+const Button = styled.button`
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 4px;
+    margin: 5px 0;
+    opacity: 0.85;
+    display: inline-block;
+    font-size: 17px;
+    line-height: 20px;
+    text-decoration: none;
+    background-color: #4CAF50;
+    color: white;
+    cursor: pointer;
+    &:hover{
+        background-color: #45a049;
+    } 
+`
