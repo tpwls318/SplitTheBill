@@ -289,6 +289,26 @@ exports.handleSignup = function(req, res) {
         res.send();
     });
 }
+
+exports.handleConfirmId = function(req, res) {
+    console.log('$$$$$$$');
+    console.log(req.body);
+    User.findOne({
+        where: { userID: req.body.userID }
+    }).then(function(result) {
+        if(result) {
+            console.log('id 중복');
+            res.send(false);
+        } else {
+            console.log('사용 가능');
+            res.send(true);
+        }
+    }).catch(function(err){
+        console.log(err);
+        res.send();
+    });
+}
+
 exports.getSid = function(req, res) {
     res.json(req.session.sid);
 }
@@ -321,7 +341,8 @@ exports.handleLogin = function(req, res) {
                 }
             });
         } else {
-            console.log('not exist')
+            console.log('not exist');
+            res.send('not exist');
         }
         // res.json(result);
         // res.send('Hello Login!!!!');
