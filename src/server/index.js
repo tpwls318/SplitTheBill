@@ -43,11 +43,13 @@ app.prepare()
   server.get('/getRooms', reqHandler.getRooms);
   server.get('/logout', reqHandler.logout);
   server.get('/getSid', reqHandler.getSid);
+  server.get('/getFriends', reqHandler.getFriends);
 
   server.post('/getTables', reqHandler.getTables);
   server.post('/test', reqHandler.testPost);
   server.post('/login', reqHandler.handleLogin);
   server.post('/signup', reqHandler.handleSignup);
+  server.post('/confirmID', reqHandler.handleConfirmId);
   server.post('/createRoom', reqHandler.createRoom);
   
   server.get('*', (req, res) => {
