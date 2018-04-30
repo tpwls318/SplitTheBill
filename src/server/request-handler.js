@@ -351,6 +351,11 @@ exports.handleLogin = function(req, res) {
          res.send(err);
     });
 }
+exports.getFriends = function(req, res) {
+    console.log('%%%%%%');
+    console.log(req.body);
+    res.send('@@@@@@');
+}
 
 exports.tmp = function(req, res) {
     console.log('%%%%%%');

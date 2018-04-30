@@ -43,6 +43,7 @@ app.prepare()
   server.get('/getRooms', reqHandler.getRooms);
   server.get('/logout', reqHandler.logout);
   server.get('/getSid', reqHandler.getSid);
+  server.get('/getFriends', reqHandler.getFriends);
 
   server.post('/getTables', reqHandler.getTables);
   server.post('/test', reqHandler.testPost);
