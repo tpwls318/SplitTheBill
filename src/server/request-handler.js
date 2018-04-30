@@ -288,7 +288,7 @@ exports.handleSignup = function(req, res) {
     });
 }
 exports.getSid = function(req, res) {
-    res.send('######################');
+    res.json(req.session.sid);
 }
 exports.logout = function(req, res) {
     delete req.session.sid;

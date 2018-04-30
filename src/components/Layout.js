@@ -10,21 +10,41 @@ const StyledSpan = styled.span`
 `;
 
 export default class Layout extends React.Component {
-
-  constructor(props) {
-    super(props);
-    this.state = {open: false};
+  static async getInitialProps ({ req }) {
+    if (req) {
+        console.log('on server, need to copy cookies from req')
+    } else {
+        console.log('on client, cookies are automatic')
+    }
+    const res = await axios({
+        url: 'http://127.0.0.1:3000/getsid',
+        // manually copy cookie on server,
+        // let browser handle it automatically on client
+        headers: req ? {cookie: req.headers.cookie} : undefined,
+    });
+    return { data: res.data };
   }
-
+ 
+  state = {
+    open: false,
+    sid: null
+  };
+  // checkLogin = () => {
+  //   this.setState({
+  //     sid: this.props.data ? this.props.data
+  //   });
+  // }
   handleToggle = () => this.setState({open: !this.state.open});
 
   render() {
     return (
       <MuiThemeProvider>
+        {/* {this.checkLogin()} */}
         <AppBar
           title={<StyledSpan>Title</StyledSpan>}
           onLeftIconButtonClick={this.handleToggle}
-          iconElementRight={<FlatButton label="Login" />}
+          
+          iconElementRight={<FlatButton href="/signin" label="Login" />}
         />
         {this.props.children}
         <Drawer width={200} open={this.state.open} onClick={this.handleToggle}>
