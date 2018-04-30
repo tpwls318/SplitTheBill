@@ -9,10 +9,8 @@ class Table extends React.Component {
     static async getInitialProps () {
         // const users = await Axios.get(`/${this.props.url.query.title}`);
         const users = await ['세르게이','전한길','김재현'];
-
-
         return {
-            users: users
+            users
         }
     }
 
@@ -20,19 +18,18 @@ class Table extends React.Component {
         checked: {},
     }
 
-
     handleCheck = (e) => {
         console.log('dfdfdfdfdf',e);
         
-        const obj = this.state.checked;
+        const checked = this.state.checked;
         if(e.target.checked) {
-            obj[e.target.value] = this.props.people[e.target.value.slice(2)];
+            checked[e.target.value] = this.props.people[e.target.value.slice(2)];
         } else {
-            delete obj[e.target.value];
+            delete checked[e.target.value];
         }
-        console.log(obj);
+        console.log(checked);
         this.setState({
-            checked: obj
+            checked
         })
     }
 
@@ -46,9 +43,9 @@ class Table extends React.Component {
                         <Name>
                             {this.props.url.query.title}
                         </Name>
-                        <PlusMeal>
+                        <AddMeal>
                             <GroupTable group={this.props.url.query.title} />
-                        </PlusMeal>
+                        </AddMeal>
                     </RoomHead>
                     <CheckBox checked={this.state.checked} users={this.props.users} onClick={ (e)=> this.handleCheck(e) } />
                     {/* <label><input type="checkbox" onChange={this.handleCheck} value='111' />ddd</label> */}
@@ -91,7 +88,7 @@ const RoomHead = styled.section`
     margin-bottom: 0.5em;
 `
 
-const PlusMeal = styled.aside`
+const AddMeal = styled.aside`
     border-left:1px solid gray;
     flex-basis: 150px;
     flex-shrink: 0;

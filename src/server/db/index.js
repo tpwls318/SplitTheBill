@@ -61,6 +61,8 @@ const UserMeal = sequelize.define('User_Meal', {
 const UserUser = sequelize.define('User_User', {
   amount : {type: Sequelize.INTEGER}
 });
+const BF = sequelize.define('Best_Friend', {
+});
 User.belongsToMany(Room, { through: UserRoom });
 Room.belongsToMany(User, { through: UserRoom });
 User.belongsToMany(Meal, { through: UserMeal });
@@ -68,8 +70,10 @@ Meal.belongsToMany(User, { through: UserMeal });
 Room.hasMany(Meal, {as: 'Menu'})
 User.belongsToMany(User, { through: UserUser, as: 'UserUser', foreignKey: 'from_id'});
 User.belongsToMany(User, { through: UserUser, as: 'UserUser2', foreignKey: 'to_id'});
+User.belongsToMany(User, { through: BF, as: 'BF', foreignKey: 'from_id'});
+User.belongsToMany(User, { through: BF, as: 'BF2', foreignKey: 'to_id'});
 sequelize.sync({
-	force: false
+	force: true
 }).then(function () {
 		console.log('Everything worked, check the database.');
 	}).catch(function () {

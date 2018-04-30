@@ -25,12 +25,6 @@ app.prepare()
   server.use(bodyParser.json());
   // Parse forms (signup/login)
   server.use(bodyParser.urlencoded({ extended: true }));
-  server.use(cookieParser());
-  server.use(session({
-    secret: 'keyboard cat',
-    resave: false,
-    saveUninitialized: true
-  }));
 
   server.get('/p/:id', (req, res) => {
     const actualPage = '/post'
@@ -53,7 +47,6 @@ app.prepare()
   server.get('*', (req, res) => {
     return handle(req, res)
   })
-
 
   server.listen(3000, (err) => {
     if (err) throw err

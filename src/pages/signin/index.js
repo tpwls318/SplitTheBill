@@ -34,8 +34,9 @@ export default class extends React.Component {
     }
     
     handleClick = () => {
-        const { userID, password } = this.state;
-        const data = { userID: userID, password: password };
+        const data = this.state;
+        console.log(data);
+        
         axios.post('/login', data).then(function (response) {
             console.log(response);
             if(response.data === true) {

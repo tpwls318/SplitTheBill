@@ -7,9 +7,8 @@ class Index extends React.Component {
     static async getInitialProps () {
         // const groups = await axios.get('/getgroup')
         const groups = await ['Immersive6','Immersive5','Immersive4'];
-
         return {
-            groups: groups
+            groups
         }
     }
 
@@ -34,7 +33,7 @@ class Index extends React.Component {
 
 const GroupLink = ({group}) => (
   <DivLink>
-    <Link prefetch as={`/group/${group}`}href={`/group/table?title=${group}`}>
+    <Link prefetch as={`/group/${group}`} href={`/group/table?title=${group}`}>
       <a>{group}</a>
     </Link>
   </DivLink>

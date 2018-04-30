@@ -41,12 +41,11 @@ export default class extends React.Component {
     }
     
     handleClick = () => {
-        const { name, userID, password, cPassword  } = this.state;
+        const data = this.state;
         if(password !== cPassword) {
             alert('비번이 같지 않아');
         }
         else {
-            const data = { name, userID, password, cPassword };
             axios.post('/signup', data).then(function (response) {
                 console.log(response);
                 if(response.data === true) {

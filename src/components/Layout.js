@@ -16,7 +16,7 @@ export default class Layout extends React.Component {
     this.state = {open: false};
   }
 
-  handleToggle = () => this.setState({open: !this.state.open});
+  handleToggle = () => this.setState( prevState => ({ open: !prevState.open }) );
 
   render() {
     return (

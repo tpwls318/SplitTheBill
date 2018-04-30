@@ -241,7 +241,18 @@ const _addRoom = ( name, people ) => {
                     plain: true
                     }))
                     console.log(created)
-                    })
+                    if (!created) {
+                        UserUser.update({
+                            amount: useruser.amount+amount
+                        },
+                        {
+                            where : {
+                                from_id: from.id,
+                                to_id: to.id
+                            }
+                        })
+                    }
+                })
                 })
             })             
           })    

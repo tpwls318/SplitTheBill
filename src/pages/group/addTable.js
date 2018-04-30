@@ -21,15 +21,15 @@ export default class extends React.Component {
     handleCheck = (e) => {
         console.log('dfdfdfdf',e);
         
-        const obj = this.state.checked;
+        const checked = this.state.checked;
         if(e.target.checked) {
-            obj[e.target.value] = this.props.people[e.target.value.slice(2)];
+            checked[e.target.value] = this.props.people[e.target.value.slice(2)];
         } else {
-            delete obj[e.target.value];
+            delete checked[e.target.value];
         }
-        console.log(obj);
+        console.log(checked);
         this.setState({
-            checked: obj
+            checked
         })
     }
 
@@ -47,23 +47,20 @@ export default class extends React.Component {
     
     handleClick = () => {
         const { checked, name, amount } = this.state;
+        const { roomname, logedinUser } = this.props;
         var people = [];
-        for(var key in checked) {
-            people.push(checked[key]);
+        for(var pid in checked) {
+            people.push(checked[pid]);
         }
         var data = {
             name,
             amount,
-            roomname: this.props.roomname,
-            logedinUser: this.props.logedinUser,
+            roomname,
+            logedinUser,
             people
         }
         console.log(data);
-        axios({
-            method: 'post',
-            url: 'http://127.0.0.1:3000/test',
-            data
-          });
+        axios.post('/test', data);
     }
     render() {
       return (
@@ -71,8 +68,8 @@ export default class extends React.Component {
             <div>
                 <p>table name : <input type="text" onChange={this.handleChangeName}/></p>
                 <p>amount : <input type="text" onChange={this.handleChangeAmount}/></p>
-                {this.props.people.map((item, index) => (
-                    <label key={index}><input type="checkbox" onChange={this.handleCheck} value={`p-${index}`} />{item}</label>
+                {this.props.people.map((person, index) => (
+                    <label key={index}><input type="checkbox" onChange={this.handleCheck} value={`p-${index}`} />{person}</label>
                 ))}
                 <p><button onClick={this.handleClick}>Create</button><button>Cancel</button></p>
             </div>
