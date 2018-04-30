@@ -32,12 +32,11 @@ app.prepare()
     saveUninitialized: true
   }));
 
-  server.get('/p/:id', (req, res) => {
-    const actualPage = '/post'
-    const queryParams = { title: req.params.id }
+  server.get('/group/:title', (req, res) => {
+    const actualPage = '/group/table'
+    const queryParams = { title: req.params.title }
     app.render(req, res, actualPage, queryParams)
   })
-  
 
   server.get('/test', reqHandler.testGet);
   server.get('/tmp', reqHandler.tmp);

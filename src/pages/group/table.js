@@ -7,7 +7,7 @@ import Axios from 'axios';
 
 class Table extends React.Component {
     static async getInitialProps (props) { 
-        const data = await Axios.post('/getTables', {
+        const data = await Axios.post('http://127.0.0.1:3000/getTables', {
             roomname: props.query.title
         }).catch( (err) => {
             if( err ) console.log('this is Table Err!!!',err);

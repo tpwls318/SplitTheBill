@@ -2,6 +2,7 @@ import Layout from '../../components/Layout.js';
 import Axios from 'axios';
 import styled from 'styled-components';
 import Link from 'next/link';
+import Router from 'next/router';
 
 class addGroup extends React.Component {
     static async getInitialProps () {
@@ -51,9 +52,13 @@ class addGroup extends React.Component {
         Axios.post( 
            '/createRoom',
             data
-          ).catch( (err) => {
+          ).then( () => {
+              Router.replace(`/group`);
+          })
+          .catch( (err) => {
             if( err ) console.log('this is addGroup Err!!!',err);
         });
+      
     }
     
     render() {
@@ -64,26 +69,15 @@ class addGroup extends React.Component {
                 {this.props.people.map((item, index) => (
                     <label key={index}><input type="checkbox" onChange={this.handleCheck} value={`p-${index}`} />{item}</label>
                 ))}
-                <BtnLink onClick={this.handleClick}/>
+                <Btn>
+                    <Button onClick={this.handleClick} prime >Create</Button>
+                    <Button>Cancel</Button>
+                </Btn>
             </Container>
         </Layout>
     )}
 }
 
-const BtnLink = ({ onClick }) => (
-    <Btn>
-        <Button prime  prefetch onClick ={ onClick } >
-            <Link href={`/group`}>
-                <div>Create</div>
-            </Link>
-        </Button>
-        <Button>
-            <Link href={`/group`}>
-                <div>Cancel</div>
-            </Link>
-        </Button>
-    </Btn>
-  )
 
 export default addGroup;
 

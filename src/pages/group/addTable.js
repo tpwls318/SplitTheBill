@@ -2,6 +2,8 @@ import Layout from '../../components/Layout.js'
 import axios from 'axios';
 import styled from 'styled-components';
 import Insert from '../../components/group/UserInsert.js';
+import Link from 'next/link';
+import Router from 'next/router';
 
 class addTable extends React.Component {
     static async getInitialProps (props) {
@@ -62,9 +64,13 @@ class addTable extends React.Component {
             method: 'post',
             url: 'http://127.0.0.1:3000/test',
             data
-          }).catch( (err) => {
+          }).then( () => {
+            Router.replace(`/group/${this.props.roomname}`);
+          })
+          .catch( (err) => {
             if( err ) console.log('this is addTable Err!!!',err);
-        });
+        }); 
+      
     }
 
     render() {

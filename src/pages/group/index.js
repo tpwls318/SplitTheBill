@@ -5,11 +5,12 @@ import styled from 'styled-components';
 
 class Good extends React.Component {
     static async getInitialProps () {
-        const groups = await Axios.get('/getRooms')
+        const groups = await Axios.get('http://127.0.0.1:3000/getRooms')
         .catch( (err) => {
             if( err ) console.log('this is index Err!!!',err);
         });
-
+        console.log('dfdfdfdfdfdf',groups);
+        
         return {
             groups: groups.data,
         }
