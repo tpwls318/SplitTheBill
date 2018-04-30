@@ -1,5 +1,5 @@
 import Layout from '../../components/Layout.js';
-import CheckBox from '../../components/CheckBox.js';
+import CheckBox from '../../components/group/CheckBox.js';
 import Groupheader from '../../components/group/Groupheader.js';
 import styled from 'styled-components';
 import Link from 'next/link';
@@ -37,12 +37,8 @@ class Table extends React.Component {
 
 
     render() {
-<<<<<<< HEAD
         
     return (
-=======
-        return (
->>>>>>> 90866cd0088136086189d7ffccddd8c8df8248dd
             <Layout>
                 <Container>
                     <RoomHead>
