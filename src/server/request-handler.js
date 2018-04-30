@@ -17,7 +17,7 @@ exports.testGet = function(req, res) {
 }
 exports.getTables = (req, res) => {
     let data = [];
-    req.body['roomname']='immersive6';
+    // req.body['roomname']='immersive6';
     name = req.body.roomname;
     Room.findOne({
         where:{
@@ -67,6 +67,8 @@ const _mealMap = async (meals, data) => {
     })
 }
 exports.createRoom = (req, res) => {
+    console.log(req.body);
+    
     req.body.people.push(req.body.logedinUser)
     _addRoom(req.body.roomname, req.body.people)
 }

@@ -32,20 +32,19 @@ app.prepare()
     saveUninitialized: true
   }));
 
-  server.get('/p/:id', (req, res) => {
-    const actualPage = '/post'
-    const queryParams = { title: req.params.id }
+  server.get('/group/:title', (req, res) => {
+    const actualPage = '/group/table'
+    const queryParams = { title: req.params.title }
     app.render(req, res, actualPage, queryParams)
   })
-  
 
   server.get('/test', reqHandler.testGet);
   server.get('/tmp', reqHandler.tmp);
   server.get('/getRooms', reqHandler.getRooms);
-  server.get('/getTables', reqHandler.getTables);
   server.get('/logout', reqHandler.logout);
   server.get('/getSid', reqHandler.getSid);
 
+  server.post('/getTables', reqHandler.getTables);
   server.post('/test', reqHandler.testPost);
   server.post('/login', reqHandler.handleLogin);
   server.post('/signup', reqHandler.handleSignup);

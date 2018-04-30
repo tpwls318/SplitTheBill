@@ -6,27 +6,26 @@ import Link from 'next/link';
 import Axios from 'axios';
 
 class Table extends React.Component {
-    static async getInitialProps () {
-        // const users = await Axios.get(`/${this.props.url.query.title}`);
-        const users = await ['세르게이','전한길','김재현'];
-
+    static async getInitialProps (props) { 
+        const data = await Axios.post('http://127.0.0.1:3000/getTables', {
+            roomname: props.query.title
+        }).catch( (err) => {
+            if( err ) console.log('this is Table Err!!!',err);
+        });
 
         return {
-            users: users
+            data: data.data
         }
     }
 
     state = {
-        checked: {},
+        checked: {}
     }
 
-
     handleCheck = (e) => {
-        console.log('dfdfdfdfdf',e);
-        
         const obj = this.state.checked;
         if(e.target.checked) {
-            obj[e.target.value] = this.props.people[e.target.value.slice(2)];
+            obj[e.target.value] = this.props.users[e.target.value.slice(2)];
         } else {
             delete obj[e.target.value];
         }
@@ -38,8 +37,12 @@ class Table extends React.Component {
 
 
     render() {
+<<<<<<< HEAD
         
     return (
+=======
+        return (
+>>>>>>> 90866cd0088136086189d7ffccddd8c8df8248dd
             <Layout>
                 <Container>
                     <RoomHead>
@@ -50,9 +53,13 @@ class Table extends React.Component {
                             <GroupTable group={this.props.url.query.title} />
                         </PlusMeal>
                     </RoomHead>
-                    <CheckBox checked={this.state.checked} users={this.props.users} onClick={ (e)=> this.handleCheck(e) } />
-                    {/* <label><input type="checkbox" onChange={this.handleCheck} value='111' />ddd</label> */}
-                    {/* <TableInfo checked={this.state.checked} users={this.props.users} onClick={this.handleCheck.bind(this)} /> */}
+                    {this.props.data.map( (item, index) => (
+                        <TableInfo 
+                        meal={item} 
+                        key={index}
+                        checked={this.state.checked}
+                        onClick={ (e)=> this.handleCheck(e) } />
+                    ))}
                 </Container>
             </Layout>
         );
@@ -68,10 +75,10 @@ const GroupTable = ({group}) => (
     </span>
   )
 
-const TableInfo = ({checked, users, onClick}) => (
+const TableInfo = ({ checked,  onClick, meal }) => (
     <div>
-        <Groupheader />
-        <CheckBox checked={checked} users={users} onClick={onClick} />
+        <Groupheader meal={meal}/>
+        <CheckBox meal={meal} checked={checked} onClick={onClick}  />
     </div>
   )
 

@@ -5,12 +5,12 @@ const linkStyle = {
   marginRight: 15
 }
 
-const GroupHeader = () => (
+const GroupHeader = ({meal}) => (
     <Div>
-          <Span>Chicken</Span>
-          <Span>Paymen</Span>
-          <Span>$100,100</Span>
-          <Span>18-04-28</Span>
+          <Span>{meal.name}</Span>
+          <Span>{meal.buyer}</Span>
+          <Span>{meal.amount}</Span>
+          <Span>{meal.createdAt}</Span>
     </Div>
 )
 
@@ -18,6 +18,7 @@ const Span = styled.span`
   padding: 0.5em;
 `
 const Div = styled.div`
+  border-top: double;
   border-bottom: double;
 `
 
