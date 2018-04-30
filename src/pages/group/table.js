@@ -37,7 +37,12 @@ class Table extends React.Component {
 
 
     render() {
+<<<<<<< HEAD
+        
+    return (
+=======
         return (
+>>>>>>> 90866cd0088136086189d7ffccddd8c8df8248dd
             <Layout>
                 <Container>
                     <RoomHead>

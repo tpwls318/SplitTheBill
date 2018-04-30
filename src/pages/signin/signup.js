@@ -51,10 +51,10 @@ export default class extends React.Component {
                 console.log(response);
                 if(response.data === true) {
                     alert('가입완료');
-                    redirect('/signin');
+                    Router.replace('/signin');
                 } else {
                     alert('아이디 중복');
-                    redirect('/signin/signup');
+                    Router.replace('/signin/signup');
                 }
             }).catch(function (error) {
                 console.log(error);
