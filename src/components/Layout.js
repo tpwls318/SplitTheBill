@@ -33,17 +33,7 @@ export default class extends React.Component {
     sid: ''
   };
 
-  async componentDidMount() {
-    console.log('YAYAYAYAYAYAYAYAYAYAYAYA');
-    var tmp = await axios({
-      url: 'http://127.0.0.1:3000/getsid',
-      // manually copy cookie on server,
-      // let browser handle it automatically on client
-      headers: req ? {cookie: req.headers.cookie} : undefined,
-  });
-    console.log('type@#@#@type', tmp);
-    this.setState({sid: tmp.sid});
-  }
+  
 
   handleToggle = () => this.setState({open: !this.state.open});
 
