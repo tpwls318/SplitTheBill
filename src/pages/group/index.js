@@ -1,25 +1,33 @@
 
 import Layout from '../../components/Layout.js';
 import Link from 'next/link';
-import Axios from 'axios';
+import axios from 'axios';
 import styled from 'styled-components';
 
 class Good extends React.Component {
-    static async getInitialProps () {
-        const groups = await Axios.get('http://127.0.0.1:3000/getRooms')
-        .catch( (err) => {
-            if( err ) console.log('this is index Err!!!',err);
+    static async getInitialProps ({ req }) {
+        const res = await axios({
+            url: 'http://127.0.0.1:3000/getRooms',
+            // manually copy cookie on server,
+            // let browser handle it automatically on client
+            headers: req ? {cookie: req.headers.cookie} : undefined,
         });
-        console.log('dfdfdfdfdfdf',groups);
-        
-        return {
-            groups: groups.data,
-        }
+        console.log('type@#@#@type', typeof res.data.sid);
+        return { sid: res.data.sid, groups: res.data.rooms };
+        // const groups = await axios.get('http://127.0.0.1:3000/getRooms')
+        // .catch( (err) => {
+        //     if( err ) console.log('this is index Err!!!',err);
+        // });
+        // console.log('dfdfdfdfdfdf',groups);
+        // console.log('type@#@#@type', groups.data.sid);
+        // return {
+        //     groups: groups.data.rooms, sid: groups.data.sid
+        // }
     }
 
     handleClick = (group) => {
         // console.log('dfdfdfdfdssssssssssssssssssss', group);
-        Axios({
+        axios({
             method: 'post',
             url: 'http://127.0.0.1:3000/getTables',
             data: {
@@ -31,7 +39,8 @@ class Good extends React.Component {
     render() {
         
         return (
-            <Layout>
+            <Layout sid={this.props.sid}>
+            {console.log('!@#$%$#@!@#$%', this.props.sid)}
                 <AddButton>
                     <Link href="/group/addGroup">
                     <a>dfdf</a>

@@ -34,7 +34,7 @@ exports.getTables = (req, res) => {
             //meals = meals.map( meal => `${meal.buyer}가 쏜 ${meal.name}` )        
             return _mealMap( meals, data )        
         }).then( ()=>{
-            res.send(data)
+            res.send({ tables: data, sid: req.session.sid })
         } )
     }) 
 }
@@ -87,9 +87,11 @@ exports.getRooms = (req, res) => {
         ]
     }).then( rooms => {
         rooms = rooms.map( room => room.name )
-        console.log(      
-        );
-        res.send(rooms)
+        const data = {
+            rooms: rooms,
+            sid: req.session.sid
+        }
+        res.send(data)
     }).then(function () {
         console.log('Everything worked, check the database.');
     }).catch(function () {
@@ -310,7 +312,7 @@ exports.handleConfirmId = function(req, res) {
 }
 
 exports.getSid = function(req, res) {
-    res.json(req.session.sid);
+    res.json({sid: req.session.sid});
 }
 exports.logout = function(req, res) {
     delete req.session.sid;

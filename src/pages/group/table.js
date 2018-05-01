@@ -3,18 +3,20 @@ import CheckBox from '../../components/group/CheckBox.js';
 import Groupheader from '../../components/group/Groupheader.js';
 import styled from 'styled-components';
 import Link from 'next/link';
-import Axios from 'axios';
+import axios from 'axios';
 
 class Table extends React.Component {
     static async getInitialProps (props) { 
-        const data = await Axios.post('http://127.0.0.1:3000/getTables', {
-            roomname: props.query.title
-        }).catch( (err) => {
-            if( err ) console.log('this is Table Err!!!',err);
+        const res = await axios({
+            url: 'http://127.0.0.1:3000/getTables',
+            // manually copy cookie on server,
+            // let browser handle it automatically on client
+            headers: props.req ? {cookie: props.req.headers.cookie} : undefined,
         });
-
+        console.log('type@#@#@type', typeof res.data.sid);
         return {
-            data: data.data
+            data: res.data.tables,
+            sid: res.data.sid
         }
     }
 
@@ -38,7 +40,7 @@ class Table extends React.Component {
 
     render() {
         return (
-            <Layout>
+            <Layout sid={this.props.sid}>
                 <Container>
                     <RoomHead>
                         <Name>
