@@ -15,9 +15,39 @@ exports.testGet = function(req, res) {
     console.log('@@@@@@@@@');
     res.send('Hello Get!!!!');
 }
+
+exports.deleteRow = (req, res) => {
+    console.log(`req.body!!!!!!@@@@@ ${req.body}`);
+    
+    const { from, to, amount, meal, roomId } = req.body;
+    _addToFrom( [from], to, (0-amount) );
+    console.log(`from:${from},to: ${to}, amount: ${amount},meal: ${meal},roomId: ${roomId}`);
+    
+    User.findOne({
+        where:{
+            name: from
+        }
+    }).then( user => {
+        UserMeal.destroy({
+            where:{
+                UserId: user.id,
+                MealId: meal
+            }
+        })
+    })  
+}
+exports.deleteTable = (req, res) => {
+    const {id} = req.body
+    Meal.destroy({
+        where:{
+            id
+        }
+    })
+}
+
 exports.getTables = (req, res) => {
     let data = [];
-    req.body['roomname']='immersive6';
+    // req.body['roomname']='immersive6';
     name = req.body.roomname;
     Room.findOne({
         where:{
@@ -67,8 +97,11 @@ const _mealMap = async (meals, data) => {
     })
 }
 exports.createRoom = (req, res) => {
+    console.log(req.body);
+    
     req.body.people.push(req.body.logedinUser)
     _addRoom(req.body.roomname, req.body.people)
+    res.send('room added')
 }
 
 exports.getRooms = (req, res) => {
@@ -263,19 +296,48 @@ const _addRoom = ( name, people ) => {
         });
     })
 }
+exports.signup = (req, res) => {
+    res.send('/');
+    // bcrypt.hash(req.body.password, null, null, function(err, hash) {
+    //     if(err) {
+    //       console.log(err);
+    //       res.send();
+    //     } else {
+    //         User.findOrCreate({
+    //             where: { userID: req.body.userID },
+    //             defaults: {
+    //                 name: req.body.name,
+    //                 password: hash
+    //             }
+    //         })                
+    //         .spread((user, created) => {
+    //             // res.send('/')
+    //             // res.redirect('/');
+    //             console.log(user.get({
+    //             plain: true
+    //             }))
+    //             if (!created) {
+    //             }
+                
+    //         }).then( ()=>{
+    //             res.redirect('/');
+    //         })
+    //     }
+    // });  
+}
 exports.handleSignup = function(req, res) {
     console.log('$$$$$$$');
     console.log(req.body);
     User.findOne({
-        where: { name: 'sergei' }
+        where: { userID: req.body.userID },
     }).then(function(result) {
-        console.log(result.dataValues);
         if(result) {
             console.log('id 중복');
+            res.send(false)
         } else {
             bcrypt.hash(req.body.password, null, null, function(err, hash) {
                 if(err) {
-                  console.log('error');
+                  console.log(err);
                   res.send();
                 } else {
                     console.log(hash);
@@ -288,7 +350,7 @@ exports.handleSignup = function(req, res) {
                         res.send(true);
                     }).catch(function(err) {
                         console.log(err);
-                        res.send();
+                        res.send(err);
                     })
                 }
             });  
@@ -298,13 +360,14 @@ exports.handleSignup = function(req, res) {
         res.send();
     });
 }
-exports.getSession = function(req, res) {
-    res.send(req.session.sid);
+exports.getSid = function(req, res) {
+    res.json(req.session.sid);
 }
 exports.logout = function(req, res) {
     delete req.session.sid;
     res.send('logout');
 }
+
 exports.handleLogin = function(req, res) {
     console.log('$$$$$$$');
     console.log(req.body);
@@ -319,8 +382,7 @@ exports.handleLogin = function(req, res) {
                 } else {
                     if(truth) {
                         console.log('login success');
-                        req.session.sid = result.dataValues.id;
-                        //req.session.sid
+                        req.session.sid = result.dataValues.userID;
                         res.send(true);
                         return;
                     } else {

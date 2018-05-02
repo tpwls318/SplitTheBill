@@ -4,26 +4,52 @@ import Groupheader from '../../components/group/Groupheader.js';
 import styled from 'styled-components';
 import Link from 'next/link';
 import Axios from 'axios';
-
+Axios.defaults.port = 3000;
 class Table extends React.Component {
-    static async getInitialProps () {
-        // const users = await Axios.get(`/${this.props.url.query.title}`);
-        const users = await ['세르게이','전한길','김재현'];
+    static async getInitialProps (props) { 
+        
+        const data = await Axios.post('http://127.0.0.1:3000/getTables',
+        {roomname: props.query.title}
+        ).catch( (err) => {
+            if( err ) console.log('this is Table Err!!!',err);
+        });
+        console.log(`datadata!!@@!#!@#!@#!@#!@#: ${JSON.stringify(data.data)}`);
+        
         return {
-            users
+            data: data.data
         }
     }
 
     state = {
-        checked: {},
+        checked: {}
     }
-
+    // exports.deleteRow = (req, res) => {
+    //     const { from, to, amount, meal, roomId } = req.body;
+    //     _addToFrom( [from], to, (0-amount) );
+    //     UserMeal.destroy({
+    //         where:{
+    //             UserId: from,
+    //             MealId: meal
+    //         }
+    //     })
+    // }
     handleCheck = (e) => {
-        console.log('dfdfdfdfdf',e);
-        
         const checked = this.state.checked;
+        console.log(this.props.data[0]);
+        console.log(e.target.checked);
+        let data = this.props.data[0];
         if(e.target.checked) {
-            checked[e.target.value] = this.props.people[e.target.value.slice(2)];
+            checked[e.target.value] = this.props.data[0].members[e.target.value.slice(2)];
+            Axios.post('http://127.0.0.1:3000/deleteRow',
+            { 
+                from: checked[e.target.value], 
+                to:data.buyer, 
+                amount:data.amount/(data.members.length+1), 
+                meal: data.id , 
+                roomId: data.RoomId
+            }
+            )
+        console.log('deleted');
         } else {
             delete checked[e.target.value];
         }
@@ -36,7 +62,7 @@ class Table extends React.Component {
 
     render() {
         
-        return (
+    return (
             <Layout>
                 <Container>
                     <RoomHead>
@@ -47,9 +73,13 @@ class Table extends React.Component {
                             <GroupTable group={this.props.url.query.title} />
                         </AddMeal>
                     </RoomHead>
-                    <CheckBox checked={this.state.checked} users={this.props.users} onClick={ (e)=> this.handleCheck(e) } />
-                    {/* <label><input type="checkbox" onChange={this.handleCheck} value='111' />ddd</label> */}
-                    {/* <TableInfo checked={this.state.checked} users={this.props.users} onClick={this.handleCheck.bind(this)} /> */}
+                    {this.props.data.map( (item, index) => (
+                        <TableInfo 
+                        meal={item} 
+                        key={index}
+                        checked={this.state.checked}
+                        onClick={ this.handleCheck } />
+                    ))}
                 </Container>
             </Layout>
         );
@@ -65,10 +95,10 @@ const GroupTable = ({group}) => (
     </span>
   )
 
-const TableInfo = ({checked, users, onClick}) => (
+const TableInfo = ({ checked,  onClick, meal }) => (
     <div>
-        <Groupheader />
-        <CheckBox checked={checked} users={users} onClick={onClick} />
+        <Groupheader meal={meal}/>
+        <CheckBox meal={meal} checked={checked} onClick={onClick}  />
     </div>
   )
 

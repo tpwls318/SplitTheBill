@@ -29,7 +29,7 @@ sequelize
 const User = sequelize.define('User', {
   id: {type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true},
   name: {type: Sequelize.STRING(32), allowNull: false},
-  userID: {type: Sequelize.STRING(32), allowNull: true},
+  userID: {type: Sequelize.STRING(32), allowNull: true, unique: true },
   password: {type: Sequelize.STRING(255), allowNull: true},
 }, {
   classMethods: {},
@@ -73,7 +73,7 @@ User.belongsToMany(User, { through: UserUser, as: 'UserUser2', foreignKey: 'to_i
 User.belongsToMany(User, { through: BF, as: 'BF', foreignKey: 'from_id'});
 User.belongsToMany(User, { through: BF, as: 'BF2', foreignKey: 'to_id'});
 sequelize.sync({
-	force: true
+	force: false
 }).then(function () {
 		console.log('Everything worked, check the database.');
 	}).catch(function () {
@@ -103,4 +103,5 @@ module.exports = {
   UserMeal,
   UserRoom,
   UserUser,
+  BF
 };

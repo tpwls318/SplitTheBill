@@ -1,19 +1,18 @@
-import Layout from '../../components/Layout.js'
-import fetch from 'isomorphic-unfetch'
-const axios = require('axios');
+import Layout from '../../components/Layout.js';
+import Axios from 'axios';
+import styled from 'styled-components';
+import Link from 'next/link';
+import Router from 'next/router';
 
-
-export default class extends React.Component {
+class addGroup extends React.Component {
     static async getInitialProps () {
-        // const res = await fetch('https://api.tvmaze.com/search/shows?q=batman')
-        // const data = await res.json()
         const people = await ['전한길', '서의환', '한영재', '이원복', '백영재', '박세진', '이준표', '이슬', '김재현', '이춘봉'];
-    
         return { people, logedinUser: '프리모'};
     }
+
     state = {
         checked: {},
-        groupname: '',
+        roomname: '',
     }
 
     handleCheck = (e) => {
@@ -31,35 +30,94 @@ export default class extends React.Component {
 
     handleChangeGroup = (e) => {
         this.setState({
-            groupname: e.target.value
+            roomname: e.target.value
         })
     }
     
     handleClick = () => {
-        const { checked, groupname } = this.state;
-        const { logedinUser } = this.props;
+        const { checked, roomname } = this.state;
+        console.log(this.state);
+        console.log(checked, roomname);
+        
         var people = [];
         for(var pid in checked) {
             people.push(checked[pid]);
         }
         var data = {
-            groupname,
-            logedinUser,
+            roomname,
+            logedinUser: this.props.logedinUser,
             people
         }
-        console.log('this is data',data);
-        axios.post('/test',data);
+        console.log('this is addgroup data',data);
+        Axios.post( 'http://127.0.0.1:3000/createRoom', data)
+        .then( (res) => {
+              console.log('gogogogogogogogogogogoggogogo',res);
+              Router.replace(`/group`);
+          })
+        .catch( (err) => {
+            if( err ) console.log('this is addGroup Err!!!',err);
+        });
+        // Router.replace(`/group`);
     }
+    
     render() {
       return (
         <Layout>
-            <div>
-                <p>group name : <input type="text" onChange={this.handleChangeGroup}/></p>
-                {this.props.people.map((person, index) => (
-                    <label key={index}><input type="checkbox" onChange={this.handleCheck} value={`p-${index}`} />{person}</label>
+            <Container>
+              <Input type="text" placeholder="GroupName" onChange={this.handleChangeGroup}/>
+                {this.props.people.map((item, index) => (
+                    <label key={index}><input type="checkbox" onChange={this.handleCheck} value={`p-${index}`} />{item}</label>
                 ))}
-                <p><button onClick={this.handleClick}>Create</button><button>Cancel</button></p>
-            </div>
+                <Btn>
+                    <Button onClick={this.handleClick} prime >Create</Button>
+                    <Button>Cancel</Button>
+                </Btn>
+            </Container>
         </Layout>
     )}
 }
+
+
+export default addGroup;
+
+const Container = styled.div`
+    position: relative;
+    border-radius: 5px;
+    background-color: #f2f2f2;
+    padding: 20px 0 30px 0;
+    display: flex;
+    align-content: center;
+    flex-direction: column;
+`
+const Input = styled.input`
+    padding: 12px;
+    border: none;
+    border-radius: 4px;
+    margin: 5px 0;
+    opacity: 0.85;
+    display: inline-block;
+    font-size: 17px;
+    line-height: 20px;
+    text-decoration: none;
+`
+const Btn = styled.div`
+    display: flex;
+    align-content: center;
+`
+
+const Button = styled.button`
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 4px;
+    margin: 5px 0;
+    opacity: 0.85;
+    display: inline-block;
+    font-size: 17px;
+    line-height: 20px;
+    text-decoration: none;
+    background-color: ${ props => props.prime ? '#4CAF50' : '#ff7675' };
+    color: white;
+    cursor: pointer;
+    &:hover: background-color: #45a049;
+`

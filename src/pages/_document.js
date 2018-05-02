@@ -9,8 +9,8 @@ injectGlobal`
 
   body {
     background: #E0E0E0;
-    margin: 20,
-    padding: 20,
+    margin: 5px;
+    padding: 5px;
     border: '1px solid #DDD'
   }
 `;

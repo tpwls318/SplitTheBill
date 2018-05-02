@@ -2,6 +2,7 @@ import Layout from '../../components/Layout.js'
 import fetch from 'isomorphic-unfetch'
 import axios from'axios';
 import redirect from '../../lib/redirect';
+import Router from 'next/router';
 
 
 export default class extends React.Component {
@@ -42,18 +43,22 @@ export default class extends React.Component {
     
     handleClick = () => {
         const data = this.state;
-        if(password !== cPassword) {
+        if(data.password !== data.cPassword) {
             alert('비번이 같지 않아');
         }
         else {
+            // axios.post('/signup2', data)
+            // .catch(function (error) {
+            //     console.log(error);
+            // });
             axios.post('/signup', data).then(function (response) {
                 console.log(response);
                 if(response.data === true) {
                     alert('가입완료');
-                    redirect('/signin');
+                    Router.replace('/signin');
                 } else {
                     alert('아이디 중복');
-                    redirect('/signin/signup');
+                    Router.replace('/signin/signup');
                 }
             }).catch(function (error) {
                 console.log(error);
