@@ -47,7 +47,7 @@ export default class extends React.Component {
         const { userID, password } = this.state;
         const data = { userID: userID, password: password };
         axios.post('/login', data).then(function (response) {
-            console.log(response);
+            // console.log(response);
             if(response.data === true) {
                 alert('success');
                 Router.replace('/');
@@ -64,6 +64,8 @@ export default class extends React.Component {
     }
  
     render() {
+        console.log('this is sign in',this.props.data);
+        
       return (
         <Layout sid={this.props.sid}>
             <Container>
@@ -105,6 +107,7 @@ const Input = styled.input`
     line-height: 20px;
     text-decoration: none;
 `
+
 const Button = styled.button`
     width: 100%;
     padding: 12px;

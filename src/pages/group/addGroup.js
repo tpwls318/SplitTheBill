@@ -69,6 +69,8 @@ class addGroup extends React.Component {
     }
     
     render() {
+        console.log('dfdfdf',this.props);
+        
       return (
         <Layout sid={this.props.sid}>
             <Container>

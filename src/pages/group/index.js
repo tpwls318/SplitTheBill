@@ -3,8 +3,10 @@ import Layout from '../../components/Layout.js';
 import Link from 'next/link';
 import axios from 'axios';
 import styled from 'styled-components';
+import ContentAdd from 'material-ui/svg-icons/content/add';
 
 class Good extends React.Component {
+
     static async getInitialProps ({ req }) {
         const res = await axios({
             url: 'http://127.0.0.1:3000/getRooms',
@@ -43,7 +45,7 @@ class Good extends React.Component {
             {console.log('!@#$%$#@!@#$%', this.props.sid)}
                 <AddButton>
                     <Link href="/group/addGroup">
-                    <a>dfdf</a>
+                    <ContentAdd style={{ color:'white', height:'56px' }} />
                     </Link>
                 </AddButton>
                 <Ul>
@@ -69,16 +71,23 @@ export default Good;
 
 const AddButton = styled.div`
     display: flex;
-    position: relative;
-    min-width: 56px;
+    align-content: center;
+    position: fixed;
+    right: 24px;
+    bottom: 24px;
+    width: 56px;
+    border-radius: 28px;
     height: 56px;
     justify-content: center;
     box-sizing: border-box;
     background-color: #0077ff;
     border: 1px solid #006be5;
     cursor: pointer;
-    width: 56px;
-    border-radius: 28px;
+    z-index: 10000000;
+    color: white;
+    &:hover {
+        opacity: 0.6;
+    }
 `
 const Ul = styled.ul`
     list-style-type: none;
@@ -90,8 +99,10 @@ const H3 = styled.h3`
 `
 
 const DivLink = styled.div`
+    border-radius: 18px;
+    background-color: white;
     padding: 20px;
-    border-bottom: 1px solid red;
+    margin-bottom: 0.5em;
     &:hover {
         background: #eee;
         cursor: pointer;

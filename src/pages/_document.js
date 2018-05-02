@@ -9,9 +9,8 @@ injectGlobal`
 
   body {
     background: #E0E0E0;
-    margin: 5px;
-    padding: 5px;
-    border: '1px solid #DDD'
+    margin: 0.3em;
+    padding: 0.3em;
   }
 `;
 
@@ -28,6 +27,7 @@ export default class MyDocument extends Document {
     return (
       <html>
         <Head>
+          <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0" />
           <title>My page</title>
           {this.props.styleTags}
         </Head>
