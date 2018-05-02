@@ -7,6 +7,7 @@ import Avatar from 'material-ui/Avatar';
 
 export default class extends React.Component {
     static async getInitialProps ({ req }) {
+<<<<<<< HEAD
         const users = await axios.post('http://127.0.0.1:3000/getFriends').then(function (response) {
             console.log('dfdfdfdfdfdfdfd');
             
@@ -18,11 +19,27 @@ export default class extends React.Component {
             data: users,
             list: [1,2,3,4,5]
          };
+=======
+        const res = await axios({
+            url: 'http://127.0.0.1:3000/getsid',
+            // manually copy cookie on server,
+            // let browser handle it automatically on client
+            headers: req ? {cookie: req.headers.cookie} : undefined,
+        });
+        const users = await [
+            { username: 'erere' },
+            { username: 'goods' },
+            { username: 'hanko' }
+        ];
+        console.log('type@#@#@type', typeof res.data.sid);
+        return { sid: res.data.sid, users: users };
+>>>>>>> f33b1f921b7121f2334d2a181544b66f563fb423
     }
 
     render() {  
         
         return (
+<<<<<<< HEAD
             <Layout>
                 <AddButton>
                     <Link href="/group/addGroup">
@@ -37,6 +54,17 @@ export default class extends React.Component {
                         </Item>
                     ))}
                 </Ul>
+=======
+            <Layout sid={this.props.sid}>
+                <Link href="/group/addGroup">
+                <button>add friend</button>
+                </Link>
+                <ul>
+                {this.props.users.map( user => (
+                   <UserProfile user={user.username} />
+                ))}
+                </ul>
+>>>>>>> f33b1f921b7121f2334d2a181544b66f563fb423
             </Layout>
         );
     }
