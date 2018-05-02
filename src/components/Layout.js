@@ -30,7 +30,7 @@ export default class extends React.Component {
  
   state = {
     open: false,
-    sid: ''
+    sid: null
   };
 
   
