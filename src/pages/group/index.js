@@ -6,26 +6,13 @@ import styled from 'styled-components';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 
 class Good extends React.Component {
-<<<<<<< HEAD
-<<<<<<< HEAD
-    static async getInitialProps () {
-        const groups = await axios.get('http://127.0.0.1:3000/getRooms')
-        .catch( (err) => {
-            if( err ) console.log('this is index Err!!!',err);
-=======
-=======
 
->>>>>>> 1b2f1a13133a9e755f0f0da52f1ab527cb9fb339
     static async getInitialProps ({ req }) {
         const res = await axios({
             url: 'http://127.0.0.1:3000/getRooms',
             // manually copy cookie on server,
             // let browser handle it automatically on client
             headers: req ? {cookie: req.headers.cookie} : undefined,
-<<<<<<< HEAD
->>>>>>> f33b1f921b7121f2334d2a181544b66f563fb423
-=======
->>>>>>> 1b2f1a13133a9e755f0f0da52f1ab527cb9fb339
         });
         console.log('type@#@#@type', typeof res.data.sid);
         return { sid: res.data.sid, groups: res.data.rooms };
