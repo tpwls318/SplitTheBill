@@ -22,7 +22,7 @@ export default class extends React.Component {
   }
   render() {
     return (
-      <Layout  sid1={this.props.sid}>
+      <Layout  sid={this.props.sid}>
         <h2>asdf@@@@@@@@@@@@2</h2>
       </Layout>
     )

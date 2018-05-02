@@ -3,6 +3,7 @@ import axios from 'axios';
 import styled from 'styled-components';
 import Link from 'next/link';
 import Router from 'next/router';
+import Axios from 'axios';
 
 class addGroup extends React.Component {
     static async getInitialProps ({ req }) {
