@@ -7,6 +7,7 @@ import Avatar from 'material-ui/Avatar';
 
 export default class extends React.Component {
     static async getInitialProps ({ req }) {
+
         const users = await axios.post('http://127.0.0.1:3000/getFriends').then(function (response) {
             console.log('dfdfdfdfdfdfdfd');
             
@@ -18,11 +19,13 @@ export default class extends React.Component {
             data: users,
             list: [1,2,3,4,5]
          };
+
     }
 
     render() {  
         
         return (
+
             <Layout>
                 <AddButton>
                     <Link href="/group/addGroup">
@@ -37,6 +40,7 @@ export default class extends React.Component {
                         </Item>
                     ))}
                 </Ul>
+
             </Layout>
         );
     }

@@ -6,18 +6,30 @@ import UserProfile from '../../components/profile/UserProfile.js';
 import {Component} from 'react';
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
+import axios from 'axios';
 
 
 class Index extends Component {
-    static async getInitialProps () {
+    static async getInitialProps ({ req }) {
         const users = ['세르게이','전한길','김재현'];
-        return {
-            users
-        }
+        const res = await axios({
+            url: 'http://127.0.0.1:3000/getsid',
+            // manually copy cookie on server,
+            // let browser handle it automatically on client
+            headers: req ? {cookie: req.headers.cookie} : undefined,
+        });
+        test();
+        console.log('type@#@#@type', typeof res.data.sid);
+        return { sid: res.data.sid, users: users };
+        
+    }
+
+    test() {
+        console.log('TESTETSETETETE@#$#$#$#$');
     }
     render() {
         return (
-            <Layout>
+            <Layout sid={this.props.sid}>
             <Container>
                 <UserProfile />
             </Container>

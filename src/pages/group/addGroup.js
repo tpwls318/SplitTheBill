@@ -5,12 +5,18 @@ import Link from 'next/link';
 import Router from 'next/router';
 
 class addGroup extends React.Component {
-    static async getInitialProps () {
+    static async getInitialProps ({ req }) {
         // const res = await fetch('https://api.tvmaze.com/search/shows?q=batman')
         // const data = await res.json()
         const people = await ['전한길', '서의환', '한영재', '이원복', '백영재', '박세진', '이준표', '이슬', '김재현', '이춘봉'];
-    
-        return { people: people, logedinUser: '프리모'};
+        const res = await axios({
+            url: 'http://127.0.0.1:3000/getsid',
+            // manually copy cookie on server,
+            // let browser handle it automatically on client
+            headers: req ? {cookie: req.headers.cookie} : undefined,
+        });
+        console.log('type@#@#@type', typeof res.data.sid);
+        return { sid: res.data.sid, people: people, logedinUser: '프리모' };
     }
 
     state = {
@@ -65,7 +71,7 @@ class addGroup extends React.Component {
         console.log('dfdfdf',this.props);
         
       return (
-        <Layout>
+        <Layout sid={this.props.sid}>
             <Container>
               <Input type="text" placeholder="GroupName" onChange={this.handleChangeGroup}/>
                 {this.props.people.map((item, index) => (

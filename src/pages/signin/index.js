@@ -9,10 +9,11 @@ import styled from 'styled-components';
 
 export default class extends React.Component {
     static async getInitialProps ({ req }) {
+        console.log('$%$%$%$%$%$%$%0');
         if (req) {
-            console.log('on server, need to copy cookies from req')
+            //console.log('on server, need to copy cookies from req')
         } else {
-            console.log('on client, cookies are automatic')
+            //console.log('on client, cookies are automatic')
         }
         const res = await axios({
             url: 'http://127.0.0.1:3000/getsid',
@@ -20,15 +21,12 @@ export default class extends React.Component {
             // let browser handle it automatically on client
             headers: req ? {cookie: req.headers.cookie} : undefined,
         });
-        return { 
-            data: res.data ,
-        };
+        return { sid: res.data.sid };
     }
 
     state = {
         userID: '',
-        password: '',
-        sid: ''
+        password: ''
     }
 
     handleChangeId = (e) => {
@@ -69,7 +67,7 @@ export default class extends React.Component {
         console.log('this is sign in',this.props.data);
         
       return (
-        <Layout check={ this.props.data }>
+        <Layout sid={this.props.sid}>
             <Container>
                 <Col>
                     <Input type="text" placeholder="Your id" onChange={this.handleChangeId}/>
