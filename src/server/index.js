@@ -6,6 +6,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
+var util = require('./util').checkUser;
 
 const dev = process.env.NODE_ENV !== 'production';
 const app = next({ dev });

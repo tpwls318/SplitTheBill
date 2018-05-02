@@ -117,8 +117,10 @@ export default class extends React.Component {
             </div> */}
             <Container>
                 <Col>
+                    <Button google > <Iname class="fa fa-google fa-fw">G</Iname> Login with Google+ </Button>
                     <Input type="text" placeholder="User Name" onChange={this.handleChangeName}/>
-                    <Input type="text" placeholder="User Id" onChange={this.handleChangeId}/>{this.state.confirmedId ? 'checked' : <button onClick={this.handleClickCI}>Confirm ID</button>}
+                    <Input type="text" primary placeholder="User Id" onChange={this.handleChangeId}/>
+                    {this.state.confirmedId ? <Checked>checked</Checked> : <Button primary onClick={this.handleClickCI}>Check</Button>}
                     <Input type="password" placeholder="User PassWord" onChange={this.handleChangePW}/>
                     <Input type="password" placeholder="Confirm PassWord" onChange={this.handleChangeCpw}/>
                     <Button onClick={this.handleClick}>Sign up</Button>
@@ -141,7 +143,7 @@ const Col = styled.div`
 
 const Input = styled.input`
     box-sizing: border-box;
-    width: 100%;
+    width: ${props => props.primary ? '90%' : '100%'};
     padding: 12px;
     border: none;
     border-radius: 4px;
@@ -152,21 +154,42 @@ const Input = styled.input`
     line-height: 20px;
     text-decoration: none;
 `
-const Button = styled.button`
-    width: 100%;
+const Checked = styled.div`
+    color: 'red';
+    box-sizing: border-box;
+    width: 10%;
     padding: 12px;
-    border: none;
-    border-radius: 4px;
     margin: 5px 0;
     opacity: 0.85;
     display: inline-block;
     font-size: 17px;
     line-height: 20px;
     text-decoration: none;
-    background-color: #4CAF50;
+`
+const Iname = styled.i`
+    text-align: center;
+    display: inline-block;
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+`
+
+const Button = styled.button`
+    width: ${props => props.primary ? '10%' : '100%'};
+    padding: 12px;
+    border: none;
+    border-radius: 4px;
+    margin: 5px 0;
+    opacity: 0.8;
+    display: inline-block;
+    font-size: 17px;
+    line-height: 20px;
+    text-decoration: none;
+    background-color: ${props => props.google ? '#dd4b39' : '#4CAF50'};
     color: white;
     cursor: pointer;
     &:hover{
-        background-color: #45a049;
+        opacity: 1;
     } 
 `

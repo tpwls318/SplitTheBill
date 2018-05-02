@@ -1,5 +1,5 @@
 import Layout from '../../components/Layout.js';
-import Axios from 'axios';
+import axios from 'axios';
 import styled from 'styled-components';
 import Link from 'next/link';
 import Router from 'next/router';
@@ -55,7 +55,7 @@ class addGroup extends React.Component {
             people: arr
         }
         console.log('this is addgroup data',data);
-        Axios.post( 
+        axios.post( 
            '/createRoom',
             data
           ).then( () => {
@@ -68,6 +68,8 @@ class addGroup extends React.Component {
     }
     
     render() {
+        console.log('dfdfdf',this.props);
+        
       return (
         <Layout sid={this.props.sid}>
             <Container>
