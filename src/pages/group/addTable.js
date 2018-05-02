@@ -8,9 +8,17 @@ import Router from 'next/router';
 class addTable extends React.Component {
     static async getInitialProps (props) {
         console.log('fdfdfdfdfdfdfd',props.query.title);
+        const res = await axios({
+            url: 'http://127.0.0.1:3000/getsid',
+            // manually copy cookie on server,
+            // let browser handle it automatically on client
+            headers: props.req ? {cookie: props.req.headers.cookie} : undefined,
+        });
+        console.log('type@#@#@type', typeof res.data.sid);
         const people = await ['전한길', '서의환', '한영재', '이원복', '백영재', '박세진', '이준표', '이슬', '김재현', '춘봉안'];
         let roomname= props.query.title, logedinUser= '전한길';
-        return { people, roomname, logedinUser};
+        const sid = res.data.sid;
+        return { sid, people, roomname, logedinUser};
     }
     state = {
         checked: {},
@@ -71,7 +79,7 @@ class addTable extends React.Component {
 
     render() {
       return (
-        <Layout>
+        <Layout sid={this.props.sid}>
             <Container>
                 <Input type="text" placeholder="Tablename" onChange={this.handleChangeName}/>
                 <Input type="text" placeholder="Amount" onChange={this.handleChangeAmount}/>

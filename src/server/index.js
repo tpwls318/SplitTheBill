@@ -16,6 +16,7 @@ var options = {
   password: null,
   database: 'bob',
 };
+var util = require('./util').checkUser;
 const dev = process.env.NODE_ENV !== 'production';
 const app = next({ dev });
 const handle = app.getRequestHandler();
@@ -32,16 +33,7 @@ app.prepare()
   }));
   server.use(passport.initialize());
   server.use(passport.session());
-  server.post(
-    '/login',
-    passport.authenticate(
-      'local', 
-      { 
-        successRedirect: '/',
-        failureRedirect: '/login',
-        failureFlash: true 
-      })
-);
+
   server.use(cors());
   // Parse JSON (uniform resource locators)
   server.use(bodyParser.json());
@@ -57,8 +49,8 @@ app.prepare()
     });
   });
   passport.use(new LocalStrategy(
-    (username, password, done) => {
-      User.findOne({ username: username }, function(err, user) {
+    (userId, password, done) => {
+      db.User.findOne({ userID }, function(err, user) {
         if (err) { return done(err); }
         if (!user) {
           return done(null, false, { message: 'Incorrect username.' });
@@ -66,6 +58,8 @@ app.prepare()
         if (!user.validPassword(password)) {
           return done(null, false, { message: 'Incorrect password.' });
         }
+        console.log(user);
+        
         return done(null, user);
       });
     }
@@ -81,12 +75,24 @@ app.prepare()
   server.get('/getRooms', reqHandler.getRooms);
   server.get('/logout', reqHandler.logout);
   server.get('/getSid', reqHandler.getSid);
+  server.get('/getFriends', reqHandler.getFriends);
 
+//   server.post(
+//     '/login',
+//     passport.authenticate(
+//       'local', 
+//       { 
+//         successRedirect: '/',
+//         failureRedirect: '/login',
+//         failureFlash: false 
+//       })
+// );
   server.post('/getTables', reqHandler.getTables);
   server.post('/test', reqHandler.testPost);
   server.post('/login', reqHandler.handleLogin);
   server.post('/signup', reqHandler.handleSignup);
   server.post('/signup2', reqHandler.signup);
+  server.post('/confirmID', reqHandler.handleConfirmId);
   server.post('/createRoom', reqHandler.createRoom);
   server.post('/deleteTable', reqHandler.deleteTable);
   server.post('/deleteRow', reqHandler.deleteRow);

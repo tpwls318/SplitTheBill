@@ -64,7 +64,7 @@ exports.getTables = (req, res) => {
             //meals = meals.map( meal => `${meal.buyer}가 쏜 ${meal.name}` )        
             return _mealMap( meals, data )        
         }).then( ()=>{
-            res.send(data)
+            res.send({ tables: data, sid: req.session.sid })
         } )
     }) 
 }
@@ -118,9 +118,11 @@ exports.getRooms = (req, res) => {
         ]
     }).then( rooms => {
         rooms = rooms.map( room => room.name )
-        console.log(      
-        );
-        res.send(rooms)
+        const data = {
+            rooms: rooms,
+            sid: req.session.sid
+        }
+        res.send(data)
     }).then(function () {
         console.log('Everything worked, check the database.');
     }).catch(function () {
@@ -360,30 +362,52 @@ exports.handleSignup = function(req, res) {
         res.send();
     });
 }
+
+exports.handleConfirmId = function(req, res) {
+    console.log('$$$$$$$');
+    console.log(req.body);
+    User.findOne({
+        where: { userID: req.body.userID }
+    }).then(function(result) {
+        if(result) {
+            console.log('id 중복');
+            res.send(false);
+        } else {
+            console.log('사용 가능');
+            res.send(true);
+        }
+    }).catch(function(err){
+        console.log(err);
+        res.send();
+    });
+}
+
 exports.getSid = function(req, res) {
-    res.json(req.session.sid);
+    res.json({sid: req.session.sid});
 }
 exports.logout = function(req, res) {
     delete req.session.sid;
-    res.send('logout');
+    console.log(req.session);
+    res.redirect('/');
 }
 
 exports.handleLogin = function(req, res) {
     console.log('$$$$$$$');
     console.log(req.body);
-    
+    const { userID, password } = req.body;
     db.User.findOne({
-        where: { userID: req.body.userID }
+        where: { userID }
     }).then(function(result) {
         if(result) {
-            bcrypt.compare(req.body.password, result.dataValues.password, function(err, truth) {
+            bcrypt.compare(password, result.dataValues.password, function(err, truth) {
                 if(err) {
                     console.log(err);
                 } else {
                     if(truth) {
                         console.log('login success');
-                        req.session.sid = result.dataValues.userID;
-                        res.send(true);
+                        req.session.displayID = userID;
+                        console.log('sssssssssssssssss',req.session);
+                        res.send(req.session);
                         return;
                     } else {
                         console.log('login fail');
@@ -393,7 +417,8 @@ exports.handleLogin = function(req, res) {
                 }
             });
         } else {
-            console.log('not exist')
+            console.log('not exist');
+            res.send('not exist');
         }
         // res.json(result);
         // res.send('Hello Login!!!!');
@@ -401,6 +426,10 @@ exports.handleLogin = function(req, res) {
          //TODO: error handling
          res.send(err);
     });
+}
+exports.getFriends = function(req, res) {
+    console.log('%%%%%%');
+    res.send('@@@@@@');
 }
 
 exports.tmp = function(req, res) {

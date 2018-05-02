@@ -1,22 +1,27 @@
 import Layout from '../../components/Layout.js';
-import CheckBox from '../../components/CheckBox.js';
+import CheckBox from '../../components/group/CheckBox.js';
 import Groupheader from '../../components/group/Groupheader.js';
 import styled from 'styled-components';
 import Link from 'next/link';
-import Axios from 'axios';
-Axios.defaults.port = 3000;
+import axios from 'axios';
+        
+
 class Table extends React.Component {
     static async getInitialProps (props) { 
-        
-        const data = await Axios.post('http://127.0.0.1:3000/getTables',
-        {roomname: props.query.title}
-        ).catch( (err) => {
-            if( err ) console.log('this is Table Err!!!',err);
+        const res = await axios({
+            method: 'post',
+            url: 'http://127.0.0.1:3000/getTables',
+            data: {
+                roomname : props.query.title
+            },
+            headers: props.req ? {cookie: props.req.headers.cookie} : undefined,
+        }).catch( (err) => {
+            if(err) console.log('this is table err', err);
         });
-        console.log(`datadata!!@@!#!@#!@#!@#!@#: ${JSON.stringify(data.data)}`);
-        
+        console.log('type@#@#@type', typeof res.data.sid);
         return {
-            data: data.data
+            data: res.data.tables,
+            sid: res.data.sid
         }
     }
 
@@ -61,9 +66,10 @@ class Table extends React.Component {
 
 
     render() {
+        console.log('table',this.props.sid);
         
-    return (
-            <Layout>
+        return (
+            <Layout sid={this.props.sid}>
                 <Container>
                     <RoomHead>
                         <Name>
