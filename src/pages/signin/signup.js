@@ -59,10 +59,10 @@ export default class extends React.Component {
     
     handleClick = () => {
         const { name, userID, password, cPassword  } = this.state;
-        if(this.state.password !== this.state.cPassword) {
-            alert('비번이 같지 않아');
-        } else if(!name || !userID || !password || !cPassword) {
+        if(!(name && userID && password && cPassword)) {
             alert('모든 항목 입력 하시오');
+        } else if(this.state.password !== this.state.cPassword) {
+            alert('비번이 같지 않아');
         } else if(!this.state.confirmedId) {
             alert('confirm id 하시오')
         } else {

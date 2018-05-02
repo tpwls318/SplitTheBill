@@ -27,17 +27,16 @@ class addTable extends React.Component {
     }
 
     handleCheck = (e) => {
-        console.log(e.target);
         
-        const obj = this.state.checked;
+        const checked = this.state.checked;
         if(e.target.checked) {
-            obj[e.target.value] = this.props.people[e.target.value.slice(2)];
+            checked[e.target.value] = this.props.people[e.target.value.slice(2)];
         } else {
-            delete obj[e.target.value];
+            delete checked[e.target.value];
         }
-        console.log(obj);
+        console.log(checked);
         this.setState({
-            checked: obj
+            checked
         })
     }
 
@@ -56,29 +55,26 @@ class addTable extends React.Component {
     handleClick = () => {
         
         const { checked, name, amount } = this.state;
+        const { roomname, logedinUser } = this.props;
         var people = [];
-        for(var key in checked) {
-            people.push(checked[key]);
+        for(var pid in checked) {
+            people.push(checked[pid]);
         }
         var data = {
             name,
             amount,
-            roomname: this.props.roomname,
-            logedinUser: this.props.logedinUser,
+            roomname,
+            logedinUser,
             people
         }
         console.log(data);
-        axios({
-            method: 'post',
-            url: 'http://127.0.0.1:3000/test',
-            data
-          }).then( () => {
+        axios.post('/test',data)
+        .then( () => {
             Router.replace(`/group/${this.props.roomname}`);
           })
           .catch( (err) => {
             if( err ) console.log('this is addTable Err!!!',err);
-        }); 
-      
+        });  
     }
 
     render() {

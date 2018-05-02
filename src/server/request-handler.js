@@ -15,6 +15,36 @@ exports.testGet = function(req, res) {
     console.log('@@@@@@@@@');
     res.send('Hello Get!!!!');
 }
+
+exports.deleteRow = (req, res) => {
+    console.log(`req.body!!!!!!@@@@@ ${req.body}`);
+    
+    const { from, to, amount, meal, roomId } = req.body;
+    _addToFrom( [from], to, (0-amount) );
+    console.log(`from:${from},to: ${to}, amount: ${amount},meal: ${meal},roomId: ${roomId}`);
+    
+    User.findOne({
+        where:{
+            name: from
+        }
+    }).then( user => {
+        UserMeal.destroy({
+            where:{
+                UserId: user.id,
+                MealId: meal
+            }
+        })
+    })  
+}
+exports.deleteTable = (req, res) => {
+    const {id} = req.body
+    Meal.destroy({
+        where:{
+            id
+        }
+    })
+}
+
 exports.getTables = (req, res) => {
     let data = [];
     // req.body['roomname']='immersive6';
@@ -71,7 +101,7 @@ exports.createRoom = (req, res) => {
     
     req.body.people.push(req.body.logedinUser)
     _addRoom(req.body.roomname, req.body.people)
-    res.send('');
+    res.send('room added')
 }
 
 exports.getRooms = (req, res) => {
@@ -246,7 +276,18 @@ const _addRoom = ( name, people ) => {
                     plain: true
                     }))
                     console.log(created)
-                    })
+                    if (!created) {
+                        UserUser.update({
+                            amount: useruser.amount+amount
+                        },
+                        {
+                            where : {
+                                from_id: from.id,
+                                to_id: to.id
+                            }
+                        })
+                    }
+                })
                 })
             })             
           })    
@@ -257,11 +298,40 @@ const _addRoom = ( name, people ) => {
         });
     })
 }
+exports.signup = (req, res) => {
+    res.send('/');
+    // bcrypt.hash(req.body.password, null, null, function(err, hash) {
+    //     if(err) {
+    //       console.log(err);
+    //       res.send();
+    //     } else {
+    //         User.findOrCreate({
+    //             where: { userID: req.body.userID },
+    //             defaults: {
+    //                 name: req.body.name,
+    //                 password: hash
+    //             }
+    //         })                
+    //         .spread((user, created) => {
+    //             // res.send('/')
+    //             // res.redirect('/');
+    //             console.log(user.get({
+    //             plain: true
+    //             }))
+    //             if (!created) {
+    //             }
+                
+    //         }).then( ()=>{
+    //             res.redirect('/');
+    //         })
+    //     }
+    // });  
+}
 exports.handleSignup = function(req, res) {
     console.log('$$$$$$$');
     console.log(req.body);
     User.findOne({
-        where: { userID: req.body.userID }
+        where: { userID: req.body.userID },
     }).then(function(result) {
         if(result) {
             console.log('id 중복');
@@ -320,23 +390,24 @@ exports.logout = function(req, res) {
     console.log(req.session);
     res.redirect('/');
 }
+
 exports.handleLogin = function(req, res) {
     console.log('$$$$$$$');
     console.log(req.body);
-    
+    const { userID, password } = req.body;
     db.User.findOne({
-        where: { userID: req.body.userID }
+        where: { userID }
     }).then(function(result) {
         if(result) {
-            bcrypt.compare(req.body.password, result.dataValues.password, function(err, truth) {
+            bcrypt.compare(password, result.dataValues.password, function(err, truth) {
                 if(err) {
                     console.log(err);
                 } else {
                     if(truth) {
                         console.log('login success');
-                        req.session.sid = result.dataValues.userID;
+                        req.session.displayID = userID;
                         console.log('sssssssssssssssss',req.session);
-                        res.send(true);
+                        res.send(req.session);
                         return;
                     } else {
                         console.log('login fail');

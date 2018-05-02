@@ -3,7 +3,7 @@ import axios from 'axios';
 import styled from 'styled-components';
 import Link from 'next/link';
 import Router from 'next/router';
-import Axios from 'axios';
+import axios from 'axios';
 
 class addGroup extends React.Component {
     static async getInitialProps ({ req }) {
@@ -26,15 +26,15 @@ class addGroup extends React.Component {
     }
 
     handleCheck = (e) => {
-        const obj = this.state.checked;
+        const checked = this.state.checked;
         if(e.target.checked) {
-            obj[e.target.value] = this.props.people[e.target.value.slice(2)];
+            checked[e.target.value] = this.props.people[e.target.value.slice(2)];
         } else {
-            delete obj[e.target.value];
+            delete checked[e.target.value];
         }
-        console.log('this is handlecheck',obj);
+        console.log('this is handlecheck',checked);
         this.setState({
-            checked: obj
+            checked
         })
     }
 
@@ -46,26 +46,28 @@ class addGroup extends React.Component {
     
     handleClick = () => {
         const { checked, roomname } = this.state;
-        var arr = [];
-        for(var key in checked) {
-            arr.push(checked[key]);
+        console.log(this.state);
+        console.log(checked, roomname);
+        
+        var people = [];
+        for(var pid in checked) {
+            people.push(checked[pid]);
         }
         var data = {
             roomname,
             logedinUser: this.props.logedinUser,
-            people: arr
+            people
         }
         console.log('this is addgroup data',data);
-        axios.post( 
-           '/createRoom',
-            data
-          ).then( () => {
+        axios.post( 'http://127.0.0.1:3000/createRoom', data)
+        .then( (res) => {
+              console.log('gogogogogogogogogogogoggogogo',res);
               Router.replace(`/group`);
           })
-          .catch( (err) => {
+        .catch( (err) => {
             if( err ) console.log('this is addGroup Err!!!',err);
         });
-      
+        // Router.replace(`/group`);
     }
     
     render() {

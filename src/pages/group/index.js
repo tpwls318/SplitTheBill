@@ -3,6 +3,7 @@ import Layout from '../../components/Layout.js';
 import Link from 'next/link';
 import axios from 'axios';
 import styled from 'styled-components';
+// Axios.defaults.port = 3000;
 import ContentAdd from 'material-ui/svg-icons/content/add';
 
 class Good extends React.Component {
