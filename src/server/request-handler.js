@@ -71,6 +71,7 @@ exports.createRoom = (req, res) => {
     
     req.body.people.push(req.body.logedinUser)
     _addRoom(req.body.roomname, req.body.people)
+    res.send('');
 }
 
 exports.getRooms = (req, res) => {
@@ -331,6 +332,7 @@ exports.handleLogin = function(req, res) {
                     if(truth) {
                         console.log('login success');
                         req.session.sid = result.dataValues.userID;
+                        console.log('sssssssssssssssss',req.session);
                         res.send(true);
                         return;
                     } else {
@@ -353,7 +355,6 @@ exports.handleLogin = function(req, res) {
 }
 exports.getFriends = function(req, res) {
     console.log('%%%%%%');
-    console.log(req.body);
     res.send('@@@@@@');
 }
 

@@ -3,29 +3,22 @@ import Link from 'next/link';
 import axios from 'axios';
 import styled from 'styled-components';
 import ContentAdd from 'material-ui/svg-icons/content/add';
+import Avatar from 'material-ui/Avatar';
 
 export default class extends React.Component {
     static async getInitialProps ({ req }) {
-        if (req) {
-            console.log('on server, need to copy cookies from req')
-        } else {
-            console.log('on client, cookies are automatic')
-        }
-        const res = await axios({
-            url: 'http://127.0.0.1:3000/getsid',
-            // manually copy cookie on server,
-            // let browser handle it automatically on client
-            headers: req ? {cookie: req.headers.cookie} : undefined,
+        const users = await axios.post('http://127.0.0.1:3000/getFriends').then(function (response) {
+            console.log('dfdfdfdfdfdfdfd');
+            
+        }).catch(function (error) {
+            console.log(error);
         });
-        const users = await axios.get({
-            url: 'http://127.0.0.1:3000/getFriends',
-            data: res.data
-        })
 
-        return { data: res.data };
+        return { 
+            data: users,
+            list: [1,2,3,4,5]
+         };
     }
-
-    state
 
     render() {  
         
@@ -36,32 +29,28 @@ export default class extends React.Component {
                     <ContentAdd style={{ color:'white', height:'56px' }} />
                     </Link>
                 </AddButton>
-                {/* <ul>
-                {this.props.users.map( user => (
-                   <UserProfile user={user.username} />
-                ))}
-                </ul> */}
+                <Ul>
+                    {this.props.list.map( item => (
+                        <Item>
+                            <Avatar src="https://pbs.twimg.com/profile_images/674900083310092292/88WaIvo5.jpg" />
+                            <Comment> hello </Comment>
+                        </Item>
+                    ))}
+                </Ul>
             </Layout>
         );
     }
 }
 
-const UserProfile = ({user}) => (
-  <div>
-    {user}
-  </div>
-)
-
 const AddButton = styled.div`
     display: flex;
-    align-content: center;
+    justify-content: center;
     position: fixed;
     right: 24px;
     bottom: 24px;
     width: 56px;
     border-radius: 28px;
     height: 56px;
-    justify-content: center;
     box-sizing: border-box;
     background-color: #0077ff;
     border: 1px solid #006be5;
@@ -71,4 +60,21 @@ const AddButton = styled.div`
     &:hover {
         opacity: 0.6;
     }
+`
+
+const Ul = styled.ul`
+    padding-left: 0px;
+`
+
+const Item = styled.div`
+    display: flex;
+    align-items: center;
+    padding: 1em;
+    background-color: #ffeaa7;
+    border-bottom 1px solid #b2bec3;
+`
+
+const Comment = styled.div`
+    color: #636e72;
+    padding-left: 1em;
 `

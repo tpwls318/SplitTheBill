@@ -3,11 +3,11 @@ import CheckBox from '../../components/group/CheckBox.js';
 import Groupheader from '../../components/group/Groupheader.js';
 import styled from 'styled-components';
 import Link from 'next/link';
-import Axios from 'axios';
+import axios from 'axios';
 
 class Table extends React.Component {
     static async getInitialProps (props) { 
-        const data = await Axios.post('http://127.0.0.1:3000/getTables', {
+        const data = await axios.post('http://127.0.0.1:3000/getTables', {
             roomname: props.query.title
         }).catch( (err) => {
             if( err ) console.log('this is Table Err!!!',err);

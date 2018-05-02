@@ -12,16 +12,21 @@ const UserList = ({ users, onCheck }) => (
                 <Avatar src="https://pbs.twimg.com/profile_images/674900083310092292/88WaIvo5.jpg" />
                 <div style={{width: '100%', margin: '0 auto'}}>
                 <Checkbox label={user} labelPosition='left' onCheck={onCheck} value={`p-${index}`} 
-                    labelStyle={{color: 'white', margin:'0 auto', display:'inline-block'}}
-                    iconStyle={{fill: 'white', paddingRight:'3em'}}
-                    inputStyle={{
-                        backgroundColor:'red',
-                        justifyContent:'flex-start',
-                        margin:'0 auto'
+                    labelStyle={{
+                        width: '90%',   
+                        color: 'white',
+                        display:'inline-block',
+                        marginLeft: '1em'
                     }}
-                    style={{
+                    iconStyle={{
+                        marginRight: '0.7em',
+                        fill: 'white'
+                    }}
+                    inputStyle={{
                         paddingLeft:'1em',
                         alignItems:'center'
+                    }}
+                    style={{
                         }}
                         />
                 </div>

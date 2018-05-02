@@ -1,13 +1,13 @@
 
 import Layout from '../../components/Layout.js';
 import Link from 'next/link';
-import Axios from 'axios';
+import axios from 'axios';
 import styled from 'styled-components';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 
 class Good extends React.Component {
     static async getInitialProps () {
-        const groups = await Axios.get('http://127.0.0.1:3000/getRooms')
+        const groups = await axios.get('http://127.0.0.1:3000/getRooms')
         .catch( (err) => {
             if( err ) console.log('this is index Err!!!',err);
         });
@@ -20,7 +20,7 @@ class Good extends React.Component {
 
     handleClick = (group) => {
         // console.log('dfdfdfdfdssssssssssssssssssss', group);
-        Axios({
+        axios({
             method: 'post',
             url: 'http://127.0.0.1:3000/getTables',
             data: {
@@ -89,8 +89,10 @@ const H3 = styled.h3`
 `
 
 const DivLink = styled.div`
+    border-radius: 18px;
+    background-color: white;
     padding: 20px;
-    border-bottom: 1px solid red;
+    margin-bottom: 0.5em;
     &:hover {
         background: #eee;
         cursor: pointer;
