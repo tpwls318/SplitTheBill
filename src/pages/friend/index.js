@@ -8,6 +8,10 @@ import Avatar from 'material-ui/Avatar';
 export default class extends React.Component {
     static async getInitialProps ({ req }) {
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+
+>>>>>>> 1b2f1a13133a9e755f0f0da52f1ab527cb9fb339
         const users = await axios.post('http://127.0.0.1:3000/getFriends').then(function (response) {
             console.log('dfdfdfdfdfdfdfd');
             
@@ -19,6 +23,7 @@ export default class extends React.Component {
             data: users,
             list: [1,2,3,4,5]
          };
+<<<<<<< HEAD
 =======
         const res = await axios({
             url: 'http://127.0.0.1:3000/getsid',
@@ -34,12 +39,19 @@ export default class extends React.Component {
         console.log('type@#@#@type', typeof res.data.sid);
         return { sid: res.data.sid, users: users };
 >>>>>>> f33b1f921b7121f2334d2a181544b66f563fb423
+=======
+
+>>>>>>> 1b2f1a13133a9e755f0f0da52f1ab527cb9fb339
     }
 
     render() {  
         
         return (
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+
+>>>>>>> 1b2f1a13133a9e755f0f0da52f1ab527cb9fb339
             <Layout>
                 <AddButton>
                     <Link href="/group/addGroup">
@@ -54,6 +66,7 @@ export default class extends React.Component {
                         </Item>
                     ))}
                 </Ul>
+<<<<<<< HEAD
 =======
             <Layout sid={this.props.sid}>
                 <Link href="/group/addGroup">
@@ -65,6 +78,9 @@ export default class extends React.Component {
                 ))}
                 </ul>
 >>>>>>> f33b1f921b7121f2334d2a181544b66f563fb423
+=======
+
+>>>>>>> 1b2f1a13133a9e755f0f0da52f1ab527cb9fb339
             </Layout>
         );
     }
