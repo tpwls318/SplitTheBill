@@ -9,7 +9,6 @@ import styled from 'styled-components';
 
 export default class extends React.Component {
     static async getInitialProps ({ req }) {
-        console.log('$%$%$%$%$%$%$%0');
         if (req) {
             //console.log('on server, need to copy cookies from req')
         } else {
@@ -17,8 +16,6 @@ export default class extends React.Component {
         }
         const res = await axios({
             url: 'http://127.0.0.1:3000/getsid',
-            // manually copy cookie on server,
-            // let browser handle it automatically on client
             headers: req ? {cookie: req.headers.cookie} : undefined,
         });
         return { sid: res.data.sid };
@@ -64,8 +61,6 @@ export default class extends React.Component {
     }
  
     render() {
-        console.log('this is sign in',this.props.data);
-        
       return (
         <Layout sid={this.props.sid}>
             <Container>
