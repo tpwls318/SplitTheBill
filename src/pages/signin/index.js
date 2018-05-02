@@ -47,7 +47,7 @@ export default class extends React.Component {
             // console.log(response);
             if(response.data === true) {
                 alert('success');
-                Router.replace('/');
+                Router.replace('/profile');
             } else if(response.data === false) {
                 alert('비밀번호 틀림');
                 Router.replace('/signin');
