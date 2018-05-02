@@ -18,15 +18,11 @@ class Index extends Component {
             // let browser handle it automatically on client
             headers: req ? {cookie: req.headers.cookie} : undefined,
         });
-        test();
         console.log('type@#@#@type', typeof res.data.sid);
         return { sid: res.data.sid, users: users };
         
     }
 
-    test() {
-        console.log('TESTETSETETETE@#$#$#$#$');
-    }
     render() {
         return (
             <Layout sid={this.props.sid}>
