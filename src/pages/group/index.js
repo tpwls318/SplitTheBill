@@ -6,25 +6,16 @@ import styled from 'styled-components';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 
 class Good extends React.Component {
-
-    static async getInitialProps ({ req }) {
-        const res = await axios({
-            url: 'http://127.0.0.1:3000/getRooms',
-            // manually copy cookie on server,
-            // let browser handle it automatically on client
-            headers: req ? {cookie: req.headers.cookie} : undefined,
+    static async getInitialProps () {
+        const groups = await axios.get('http://127.0.0.1:3000/getRooms')
+        .catch( (err) => {
+            if( err ) console.log('this is index Err!!!',err);
         });
-        console.log('type@#@#@type', typeof res.data.sid);
-        return { sid: res.data.sid, groups: res.data.rooms };
-        // const groups = await axios.get('http://127.0.0.1:3000/getRooms')
-        // .catch( (err) => {
-        //     if( err ) console.log('this is index Err!!!',err);
-        // });
-        // console.log('dfdfdfdfdfdf',groups);
-        // console.log('type@#@#@type', groups.data.sid);
-        // return {
-        //     groups: groups.data.rooms, sid: groups.data.sid
-        // }
+        console.log('dfdfdfdfdfdf',groups);
+        
+        return {
+            groups: groups.data,
+        }
     }
 
     handleClick = (group) => {
@@ -41,8 +32,7 @@ class Good extends React.Component {
     render() {
         
         return (
-            <Layout sid={this.props.sid}>
-            {console.log('!@#$%$#@!@#$%', this.props.sid)}
+            <Layout check={}>
                 <AddButton>
                     <Link href="/group/addGroup">
                     <ContentAdd style={{ color:'white', height:'56px' }} />
