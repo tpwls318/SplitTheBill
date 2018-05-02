@@ -8,10 +8,14 @@ import axios from 'axios';
 class Table extends React.Component {
     static async getInitialProps (props) { 
         const res = await axios({
+            method: 'post',
             url: 'http://127.0.0.1:3000/getTables',
-            // manually copy cookie on server,
-            // let browser handle it automatically on client
+            data: {
+                roomname : props.query.title
+            },
             headers: props.req ? {cookie: props.req.headers.cookie} : undefined,
+        }).catch( (err) => {
+            if(err) console.log('this is table err', err);
         });
         console.log('type@#@#@type', typeof res.data.sid);
         return {
@@ -39,6 +43,8 @@ class Table extends React.Component {
 
 
     render() {
+        console.log('table',this.props.sid);
+        
         return (
             <Layout sid={this.props.sid}>
                 <Container>

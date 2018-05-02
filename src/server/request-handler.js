@@ -317,7 +317,8 @@ exports.getSid = function(req, res) {
 }
 exports.logout = function(req, res) {
     delete req.session.sid;
-    res.send('logout');
+    console.log(req.session);
+    res.redirect('/');
 }
 exports.handleLogin = function(req, res) {
     console.log('$$$$$$$');

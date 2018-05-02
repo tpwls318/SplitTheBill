@@ -12,6 +12,11 @@ injectGlobal`
     margin: 0.3em;
     padding: 0.3em;
   }
+  @media only screen and (max-width: 600px) {
+    body {
+        background-color: #3498db;
+    }
+  }
 `;
 
 
@@ -28,7 +33,7 @@ export default class MyDocument extends Document {
       <html>
         <Head>
           <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0" />
-          <title>My page</title>
+           <title>My page</title>
           {this.props.styleTags}
         </Head>
         <body>

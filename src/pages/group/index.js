@@ -10,8 +10,6 @@ class Good extends React.Component {
     static async getInitialProps ({ req }) {
         const res = await axios({
             url: 'http://127.0.0.1:3000/getRooms',
-            // manually copy cookie on server,
-            // let browser handle it automatically on client
             headers: req ? {cookie: req.headers.cookie} : undefined,
         });
         console.log('type@#@#@type', typeof res.data.sid);
@@ -27,17 +25,6 @@ class Good extends React.Component {
         // }
     }
 
-    handleClick = (group) => {
-        // console.log('dfdfdfdfdssssssssssssssssssss', group);
-        axios({
-            method: 'post',
-            url: 'http://127.0.0.1:3000/getTables',
-            data: {
-                roomname : group
-            }
-          });
-    }
-
     render() {
         
         return (
@@ -50,7 +37,7 @@ class Good extends React.Component {
                 </AddButton>
                 <Ul>
                 {this.props.groups.map( (group, index) => (
-                   <GroupLink group={group} key={index} onClick={ this.handleClick } />
+                   <GroupLink group={group} key={index} />
                 ))}
                 </Ul>
             </Layout>
@@ -58,8 +45,8 @@ class Good extends React.Component {
     }
 }
 
-const GroupLink = ({ group, onClick }) => (
-  <DivLink onClick ={ () => onClick(group) }   >
+const GroupLink = ({ group }) => (
+  <DivLink >
     <Link prefetch as={`/group/${group}`} href={`/group/table?title=${group}`}  >
       <H3 value={group} >{group}</H3>
     </Link>

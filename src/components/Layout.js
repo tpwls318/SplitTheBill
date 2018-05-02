@@ -1,57 +1,31 @@
 import Header from './Header';
 import styled from 'styled-components';
 import Head from 'next/head';
-import { Drawer, RaisedButton, MenuItem, AppBar, FlatButton, IconButton  } from 'material-ui';
+import { Drawer, RaisedButton, MenuItem, AppBar, FlatButton, IconButton, IconMenu } from 'material-ui';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Link from 'next/link';
-import axios from 'axios';
+import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 
-
-
-
-
-
-export default class extends React.Component {
-  // static async getInitialProps ({ req }) {
-  //   console.log('$%$%$%$%$%$%$%0');
-    // if (req) {
-    //     console.log('on server, need to copy cookies from req')
-    // } else {
-    //     console.log('on client, cookies are automatic')
-    // }
-    // const res = await axios({
-    //     url: 'http://127.0.0.1:3000/getsid',
-    //     // manually copy cookie on server,
-    //     // let browser handle it automatically on client
-    //     headers: req ? {cookie: req.headers.cookie} : undefined,
-    // });
-  //   return { data: 'asdf' };
-  // }
-
- 
+class Layout extends React.Component {
 
   state = {
     open: false,
     sid: null
   };
 
-
   handleToggle = () => this.setState({open: !this.state.open});
 
   render() {
-    // console.log('Layout is ',check,this.state);
+     // console.log('Layout is ',check,this.state);
     
     return (
       <MuiThemeProvider>
-        {console.log('!@!@!@!@!@!@!@',this.state.sid)}
+        {/* {this.checkLogin()} */}
         <div>
         <AppBar
           title={<StyledSpan>Title</StyledSpan>}
           onLeftIconButtonClick={this.handleToggle}
-
-          
-          iconElementRight={this.state.sid ? <FlatButton href="/logout" label="Logout" /> : <FlatButton href="/signin" label="Login" />}
-
+          iconElementRight={ <Logged /> }
         />
         {this.props.children}
         <Drawer width={200} open={this.state.open} onClick={this.handleToggle}>
@@ -64,14 +38,30 @@ export default class extends React.Component {
   }
 }
 
+const Logged = (props) => (
+  <IconMenu
+    {...props}
+    iconButtonElement={
+      <IconButton><MoreVertIcon /></IconButton>
+    }
+    targetOrigin={{horizontal: 'right', vertical: 'top'}}
+    anchorOrigin={{horizontal: 'right', vertical: 'top'}}
+  >
+    <MenuItem href="/signin" primaryText="Login" />
+    <MenuItem href="/logout" primaryText="Log Out" />
+    <MenuItem href="/signin/signup" primaryText="Sign up" />
+  </IconMenu>
+);
 
+Logged.muiName = 'IconMenu';
 
 const StyledSpan = styled.span`
   cursor: pointer;
 `;
 
 
+// this.state.logged ? <FlatButton href="/" label="LogOut" /> :
+// <FlatButton href="/signin" label="Login" />
 
 
-// export default Layout;
-
+export default Layout;

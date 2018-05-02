@@ -4,6 +4,7 @@ import axios from'axios';
 // import redirect from '../../lib/redirect';
 import styled from 'styled-components';
 import Router from 'next/router';
+import Icon from '../../lib/DoneIcon.js'
 
 export default class extends React.Component {
     static async getInitialProps ({ req }) {
@@ -15,8 +16,6 @@ export default class extends React.Component {
         }
         const res = await axios({
             url: 'http://127.0.0.1:3000/getsid',
-            // manually copy cookie on server,
-            // let browser handle it automatically on client
             headers: req ? {cookie: req.headers.cookie} : undefined,
         });
         console.log('type@#@#@type', typeof res.data.sid);
@@ -108,19 +107,15 @@ export default class extends React.Component {
     render() {
       return (
         <Layout sid={this.props.sid}>
-            {/* <div>
-                <p>Name : <input type="text" onChange={this.handleChangeName}/></p>
-                <p>ID : <input type="text" onChange={this.handleChangeId}/>{this.state.confirmedId ? 'checked' : <button onClick={this.handleClickCI}>Confirm ID</button>}</p>
-                <p>password : <input type="password" onChange={this.handleChangePW}/></p>
-                <p>confirm password : <input type="password" onChange={this.handleChangeCpw}/></p>
-                <p><button onClick={this.handleClick}>Sign up</button></p>
-            </div> */}
             <Container>
                 <Col>
                     <Button google > <Iname class="fa fa-google fa-fw">G</Iname> Login with Google+ </Button>
                     <Input type="text" placeholder="User Name" onChange={this.handleChangeName}/>
                     <Input type="text" primary placeholder="User Id" onChange={this.handleChangeId}/>
-                    {this.state.confirmedId ? <Checked>checked</Checked> : <Button primary onClick={this.handleClickCI}>Check</Button>}
+                    {this.state.confirmedId ? <Checked>checked</Checked> : <Button primary onClick={this.handleClickCI}>
+                    <Content><Icon /></Content>
+                    <Message>Check</Message>
+                    </Button>}
                     <Input type="password" placeholder="User PassWord" onChange={this.handleChangePW}/>
                     <Input type="password" placeholder="Confirm PassWord" onChange={this.handleChangeCpw}/>
                     <Button onClick={this.handleClick}>Sign up</Button>
@@ -153,6 +148,9 @@ const Input = styled.input`
     font-size: 17px;
     line-height: 20px;
     text-decoration: none;
+    @media (max-width: 800px) {
+        width: ${props => props.primary ? '80%' : '100%'};
+    };
 `
 const Checked = styled.div`
     color: 'red';
@@ -191,5 +189,19 @@ const Button = styled.button`
     cursor: pointer;
     &:hover{
         opacity: 1;
-    } 
+    };
+    @media (max-width: 800px) {
+        width: ${props => props.primary ? '20%' : '100%'};
+    };
+`
+const Message = styled.div`
+    @media (max-width: 800px) {
+        display: none;
+    };
+`
+const Content = styled.div`
+    display: none;
+    @media (max-width: 800px) {
+        display: flex;
+    };
 `
