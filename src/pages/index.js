@@ -7,10 +7,6 @@ export default class extends React.Component {
   static async getInitialProps ( {req} ) {
       let check;
       if(req) check = !!req.session.displayID;
-      const res = await axios({
-          url: 'http://127.0.0.1:3000/getsid',
-          headers: req ? {cookie: req.headers.cookie} : undefined,
-      });
       return { 
         check
       };

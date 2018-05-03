@@ -8,10 +8,7 @@ import { log } from 'util';
 
 class addTable extends React.Component {
     static async getInitialProps (props) {
-        const res = await axios({
-            url: 'http://127.0.0.1:3000/getSid',
-        });
-        
+
         console.log('resresrserseresrserserserserseresr', props);
         // const people = await ['전한길', '서의환', '한영재', '이원복', '백영재', '박세진', '이준표', '이슬', '김재현', '춘봉안'];
         let roomname = props.query.title;
@@ -20,7 +17,6 @@ class addTable extends React.Component {
         let logedinUser = people[0];
         if(props.req) {
             logedinUser = props.req.session.displayID;
-            console.log(res.data.displayID);
         }
 
         return { people, roomname, logedinUser};

@@ -11,18 +11,14 @@ import axios from 'axios';
 
 class Index extends Component {
     static async getInitialProps ({req}) {
-        const check = !!req.session.displayID ? true : false;
+        const check = !!req.session.displayID;
         const users = [
             { name: '기리보이' , money: '12000'},
             { name: '고수' , money: '3000'},
             { name: '배추' , money: '1246789'}
         ];
-        const res = await axios({
-            url: 'http://127.0.0.1:3000/getsid',
-            headers: req ? {cookie: req.headers.cookie} : undefined,
-        });
         console.log('on profile ',req.session);
-        return { sid: res.data.sid, users: users, check };
+        return { users, check };
     }
 
     render() {

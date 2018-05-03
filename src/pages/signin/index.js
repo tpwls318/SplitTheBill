@@ -10,17 +10,11 @@ import styled from 'styled-components';
 export default class extends React.Component {
     static async getInitialProps ({ req }) {
         let check;
-        if(req) check = !!req.session.displayID ? true : false;
-        const res = await axios({
-            url: 'http://127.0.0.1:3000/getsid',
-            headers: req ? {cookie: req.headers.cookie} : undefined,
-        });
+        if(req) check = !!req.session.displayID;
         return { 
-            sid: res.data.sid,
             check
          };
     }
-
     state = {
         userID: '',
         password: '',
@@ -48,7 +42,6 @@ export default class extends React.Component {
     
     handleClick = () => {
         const data = this.state;
-        // console.log(data);
         
         axios.post('/login', data).then(function (response) {
             console.log('displayid!!!!!',response.data.displayID);
@@ -68,7 +61,6 @@ export default class extends React.Component {
     }
  
     render() {
-        console.log('dfdfdfd',this.props.check);
       return (
         <Layout close={this.props.check}>
             <Container>

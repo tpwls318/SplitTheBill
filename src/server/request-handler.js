@@ -65,7 +65,18 @@ exports.deleteRow = (req, res) => {
                 MealId: meal
             }
         })
-    })  
+    }) 
+    Meal.findOne({where: {id:meal}})
+    .then( curMeal => (
+        Meal.update({amount: curMeal.amount-amount},
+            {where: {id:meal}, returning: true}).then(function(result) {
+                 console.log(`result !!!!!!!!!!!! ${result}`);
+            }).catch(function(err) {
+                 console.log(err);          
+            })
+    )
+    )
+
 }
 exports.deleteTable = (req, res) => {
     const {id} = req.body
@@ -77,7 +88,7 @@ exports.deleteTable = (req, res) => {
 }
 
 exports.getTables = (req, res) => {
-    let data = [];
+    let tables = [];
     // req.body['roomname']='immersive6';
     name = req.body.roomname;
     Room.findOne({
@@ -93,9 +104,9 @@ exports.getTables = (req, res) => {
         })
         .then( meals => {
             //meals = meals.map( meal => `${meal.buyer}가 쏜 ${meal.name}` )        
-            return _mealMap( meals, data )        
+            return _mealMap( meals, tables )        
         }).then( ()=>{
-            res.send({ tables: data, sid: req.session.sid })
+            res.send({ tables })
         } )
     }) 
 }
@@ -137,9 +148,11 @@ exports.createRoom = async(req, res) => {
 }
 
 exports.getRooms = (req, res) => {
-    // const { userID } = req.body;
-    const { userID } = {userID: req.session.displayID};
-    console.log(`userID : ${req.session.displayID}`);
+    const { userID } = req.body;
+    // const { userID } = { userID: req.session.displayID };
+    console.log(req.session);
+    
+    console.log(`userID : ${userID}`);
 
     Room.findAll({
         where: {
@@ -159,7 +172,6 @@ exports.getRooms = (req, res) => {
         rooms = rooms.map( room => room.name )
         const data = {
             rooms,
-            sid: req.session.sid
         }
         console.log(`data : ${data.rooms}`);
         
@@ -169,17 +181,6 @@ exports.getRooms = (req, res) => {
     }).catch(function () {
         console.log('Something went wrong. Catch was executed.');
     });
-    // res.send()
-    // User.findAll({
-    //     where: { 
-    //       name:  {
-    //           $in : people
-    //         }
-    //     }
-    //   }).then( users => {  
-
-    //     meal.addUsers(users)
-    //   })
 }
 
 exports.testPost = async (req, res) => {

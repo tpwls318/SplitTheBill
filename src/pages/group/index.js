@@ -9,24 +9,12 @@ import ContentAdd from 'material-ui/svg-icons/content/add';
 class Good extends React.Component {
 
     static async getInitialProps ({ req }) {
-        const check = !!req.session.displayID ? true : false;
-        const res = await axios({
-            url: 'http://127.0.0.1:3000/getRooms',
-            data:{
-            },
-            headers: req ? {cookie: req.headers.cookie} : undefined,
-        });
-        console.log('type@#@#@type', res.data);
-        return { sid: res.data.sid, groups: res.data.rooms, check };
-        // const groups = await axios.get('http://127.0.0.1:3000/getRooms')
-        // .catch( (err) => {
-        //     if( err ) console.log('this is index Err!!!',err);
-        // });
-        // console.log('dfdfdfdfdfdf',groups);
-        // console.log('type@#@#@type', groups.data.sid);
-        // return {
-        //     groups: groups.data.rooms, sid: groups.data.sid
-        // }
+        let check;
+        if(req) check = !!req.session.displayID;
+        console.log(`dis Id: ${req.session.displayID}`);
+        let userID = {userID :req.session.displayID}
+        const res = await axios.post('http://127.0.0.1:3000/getRooms',userID);
+        return { groups: res.data.rooms, check };
     }
 
     render() {

@@ -10,7 +10,6 @@ class Layout extends React.Component {
 
   state = {
     open: false,
-    sid: null
   };
 
   handleToggle = () => this.setState( prevState => ({open: !prevState.open}));

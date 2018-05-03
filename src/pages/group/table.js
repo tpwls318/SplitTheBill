@@ -16,7 +16,6 @@ class Table extends React.Component {
             data: {
                 roomname : props.query.title
             },
-            headers: props.req ? {cookie: props.req.headers.cookie} : undefined,
         }).catch( (err) => {
             if(err) console.log('this is table err', err);
         });
@@ -24,29 +23,16 @@ class Table extends React.Component {
         
         return {
             data: res.data.tables,
-            sid: res.data.sid,
             check,
-            // displayID: props.req.session.displayID
         }
     }
-
     state = {
         checked: {}
     }
-    // exports.deleteRow = (req, res) => {
-    //     const { from, to, amount, meal, roomId } = req.body;
-    //     _addToFrom( [from], to, (0-amount) );
-    //     UserMeal.destroy({
-    //         where:{
-    //             UserId: from,
-    //             MealId: meal
-    //         }
-    //     })
-    // }
+
     handleCheck = (e) => {
         const checked = this.state.checked;
         console.log(this.props.data);
-        // console.log(e.target.checked);
         
         let index = e.target.value.split(':')[1];
         let mealIndex = e.target.value.split(':')[2];

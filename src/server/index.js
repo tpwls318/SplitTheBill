@@ -78,7 +78,7 @@ app.prepare()
 
   server.get('/test', reqHandler.testGet);
   server.get('/tmp', reqHandler.tmp);
-  server.get('/getRooms', reqHandler.getRooms);
+  server.post('/getRooms', reqHandler.getRooms);
   server.get('/logout', reqHandler.logout);
   server.get('/getSid', reqHandler.getSid);
   server.get('/getFriends', reqHandler.getFriends);
