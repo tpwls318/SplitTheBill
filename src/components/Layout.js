@@ -13,19 +13,17 @@ class Layout extends React.Component {
     sid: null
   };
 
-  handleToggle = () => this.setState({open: !this.state.open});
+  handleToggle = () => this.setState( prevState => ({open: !prevState.open}));
 
   render() {
-     // console.log('Layout is ',check,this.state);
-    
+    console.log('여긴 레이아웃',this.props);
     return (
       <MuiThemeProvider>
-        {/* {this.checkLogin()} */}
         <div>
         <AppBar
           title={<StyledSpan>Title</StyledSpan>}
           onLeftIconButtonClick={this.handleToggle}
-          iconElementRight={ <Logged /> }
+          iconElementRight={ <Logged close={this.props.close}/> }
         />
         {this.props.children}
         <Drawer width={200} open={this.state.open} onClick={this.handleToggle}>
@@ -38,30 +36,28 @@ class Layout extends React.Component {
   }
 }
 
-const Logged = (props) => (
-  <IconMenu
-    {...props}
-    iconButtonElement={
-      <IconButton><MoreVertIcon /></IconButton>
-    }
-    targetOrigin={{horizontal: 'right', vertical: 'top'}}
-    anchorOrigin={{horizontal: 'right', vertical: 'top'}}
-  >
-    <MenuItem href="/signin" primaryText="Login" />
-    <MenuItem href="/logout" primaryText="Log Out" />
-    <MenuItem href="/signin/signup" primaryText="Sign up" />
-  </IconMenu>
-);
+const Logged = (props) => {
+  return(
+    <IconMenu
+      {...props}
+      iconButtonElement={
+        <IconButton><MoreVertIcon /></IconButton>
+      }
+      targetOrigin={{horizontal: 'right', vertical: 'top'}}
+      anchorOrigin={{horizontal: 'right', vertical: 'top'}}
+    >
+      { !props.close ? <MenuItem href="/signin" primaryText="Login" /> :  <MenuItem href="/logout" primaryText="Log Out" /> }
+      <MenuItem href="/signin/signup" primaryText="Sign up" />
+    </IconMenu>
+  )
+    
+};
 
 Logged.muiName = 'IconMenu';
 
 const StyledSpan = styled.span`
   cursor: pointer;
 `;
-
-
-// this.state.logged ? <FlatButton href="/" label="LogOut" /> :
-// <FlatButton href="/signin" label="Login" />
 
 
 export default Layout;

@@ -4,22 +4,14 @@ import axios from'axios';
 // import redirect from '../../lib/redirect';
 import styled from 'styled-components';
 import Router from 'next/router';
-import Icon from '../../lib/DoneIcon.js'
-import FacebookLogin from 'react-facebook-login';
+import Icon from '../../lib/DoneIcon.js';
 
 export default class extends React.Component {
     static async getInitialProps ({ req }) {
-        console.log('$%$%$%$%$%$%$%0');
-        if (req) {
-            //console.log('on server, need to copy cookies from req')
-        } else {
-            //console.log('on client, cookies are automatic')
-        }
         const res = await axios({
             url: 'http://127.0.0.1:3000/getsid',
             headers: req ? {cookie: req.headers.cookie} : undefined,
         });
-        console.log('type@#@#@type', typeof res.data.sid);
         return { sid: res.data.sid };
     }
     state = {
@@ -60,10 +52,10 @@ export default class extends React.Component {
     
     handleClick = () => {
         const { name, userID, password, cPassword  } = this.state;
-        if(this.state.password !== this.state.cPassword) {
-            alert('비번이 같지 않아');
-        } else if(!name || !userID || !password || !cPassword) {
+        if(!(name && userID && password && cPassword)) {
             alert('모든 항목 입력 하시오');
+        } else if(this.state.password !== this.state.cPassword) {
+            alert('비번이 같지 않아');
         } else if(!this.state.confirmedId) {
             alert('confirm id 하시오')
         } else {
@@ -110,12 +102,6 @@ export default class extends React.Component {
         <Layout sid={this.props.sid}>
             <Container>
                 <Col>
-                    <FacebookLogin
-                    appId="1088597931155576"
-                    autoLoad={true}
-                    fields="name,email,picture"
-                    onClick={componentClicked}
-                    callback={responseFacebook} />,
                     <Button google > <Iname class="fa fa-google fa-fw">G</Iname> Login with Google+ </Button>
                     <Input type="text" placeholder="User Name" onChange={this.handleChangeName}/>
                     <UserId>

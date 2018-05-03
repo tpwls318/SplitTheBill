@@ -3,17 +3,12 @@ import axios from 'axios';
 import styled from 'styled-components';
 import Link from 'next/link';
 import Router from 'next/router';
-import Axios from 'axios';
 
 class addGroup extends React.Component {
     static async getInitialProps ({ req }) {
-        // const res = await fetch('https://api.tvmaze.com/search/shows?q=batman')
-        // const data = await res.json()
         const people = await ['전한길', '서의환', '한영재', '이원복', '백영재', '박세진', '이준표', '이슬', '김재현', '이춘봉'];
         const res = await axios({
             url: 'http://127.0.0.1:3000/getsid',
-            // manually copy cookie on server,
-            // let browser handle it automatically on client
             headers: req ? {cookie: req.headers.cookie} : undefined,
         });
         console.log('type@#@#@type', typeof res.data.sid);
@@ -26,15 +21,15 @@ class addGroup extends React.Component {
     }
 
     handleCheck = (e) => {
-        const obj = this.state.checked;
+        const checked = this.state.checked;
         if(e.target.checked) {
-            obj[e.target.value] = this.props.people[e.target.value.slice(2)];
+            checked[e.target.value] = this.props.people[e.target.value.slice(2)];
         } else {
-            delete obj[e.target.value];
+            delete checked[e.target.value];
         }
-        console.log('this is handlecheck',obj);
+        console.log('this is handlecheck',checked);
         this.setState({
-            checked: obj
+            checked
         })
     }
 
@@ -46,26 +41,27 @@ class addGroup extends React.Component {
     
     handleClick = () => {
         const { checked, roomname } = this.state;
-        var arr = [];
-        for(var key in checked) {
-            arr.push(checked[key]);
+        console.log(this.state);
+        console.log(checked, roomname);
+        
+        var people = [];
+        for(var pid in checked) {
+            people.push(checked[pid]);
         }
         var data = {
             roomname,
             logedinUser: this.props.logedinUser,
-            people: arr
+            people
         }
         console.log('this is addgroup data',data);
-        axios.post( 
-           '/createRoom',
-            data
-          ).then( () => {
+        axios.post( 'http://127.0.0.1:3000/createRoom', data)
+        .then( (res) => {
               Router.replace(`/group`);
           })
-          .catch( (err) => {
+        .catch( (err) => {
             if( err ) console.log('this is addGroup Err!!!',err);
         });
-      
+        // Router.replace(`/group`);
     }
     
     render() {
