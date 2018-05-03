@@ -6,6 +6,8 @@ import axios from'axios';
 export default class extends React.Component {
   static async getInitialProps ({ req }) {
       console.log('$%$%$%$%$%$%$%0');
+      console.log(req.session.displayID);
+      
       if (req) {
           //console.log('on server, need to copy cookies from req')
       } else {

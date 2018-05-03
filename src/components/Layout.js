@@ -17,7 +17,10 @@ class Layout extends React.Component {
   //     sid: this.props.data ? this.props.data
   //   });
   // }
-  handleToggle = () => this.setState( prevState => ({open: !prevState.open}));
+  handleToggle = () => {
+    console.log('hi');
+    this.setState( prevState => ({open: !prevState.open}));
+  }
 
   render() {
      // console.log('Layout is ',check,this.state);

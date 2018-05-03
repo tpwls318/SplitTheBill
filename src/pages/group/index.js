@@ -13,7 +13,7 @@ class Good extends React.Component {
             url: 'http://127.0.0.1:3000/getRooms',
             headers: req ? {cookie: req.headers.cookie} : undefined,
         });
-        console.log('type@#@#@type', typeof res.data.sid);
+        console.log('type@#@#@type', res.data);
         return { sid: res.data.sid, groups: res.data.rooms };
         // const groups = await axios.get('http://127.0.0.1:3000/getRooms')
         // .catch( (err) => {
@@ -31,9 +31,9 @@ class Good extends React.Component {
         return (
             <Layout sid={this.props.sid}>
             {console.log('!@#$%$#@!@#$%', this.props.sid)}
-                <AddButton>
+                <AddButton>  
                     <Link href="/group/addGroup">
-                    <ContentAdd style={{ color:'white', height:'56px' }} />
+                        <ContentAdd style={{ color:'white', height:'56px' }} />
                     </Link>
                 </AddButton>
                 <Ul>

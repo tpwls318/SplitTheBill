@@ -9,6 +9,8 @@ import styled from 'styled-components';
 
 export default class extends React.Component {
     static async getInitialProps ({ req }) {
+        console.log(req.session);
+        
         if (req) {
             //console.log('on server, need to copy cookies from req')
         } else {

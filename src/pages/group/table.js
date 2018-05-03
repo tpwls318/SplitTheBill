@@ -45,7 +45,7 @@ class Table extends React.Component {
         let data = this.props.data[0];
         if(e.target.checked) {
             checked[e.target.value] = this.props.data[0].members[e.target.value.slice(2)];
-            Axios.post('http://127.0.0.1:3000/deleteRow',
+            axios.post('http://127.0.0.1:3000/deleteRow',
             { 
                 from: checked[e.target.value], 
                 to:data.buyer, 

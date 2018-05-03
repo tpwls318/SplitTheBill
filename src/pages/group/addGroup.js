@@ -3,21 +3,23 @@ import axios from 'axios';
 import styled from 'styled-components';
 import Link from 'next/link';
 import Router from 'next/router';
-import axios from 'axios';
 
 class addGroup extends React.Component {
     static async getInitialProps ({ req }) {
         // const res = await fetch('https://api.tvmaze.com/search/shows?q=batman')
         // const data = await res.json()
-        const people = await ['전한길', '서의환', '한영재', '이원복', '백영재', '박세진', '이준표', '이슬', '김재현', '이춘봉'];
+        // const people = await ['전한길', '서의환', '한영재', '이원복', '백영재', '박세진', '이준표', '이슬', '김재현', '이춘봉'];
         const res = await axios({
             url: 'http://127.0.0.1:3000/getsid',
             // manually copy cookie on server,
             // let browser handle it automatically on client
             headers: req ? {cookie: req.headers.cookie} : undefined,
         });
-        console.log('type@#@#@type', typeof res.data.sid);
-        return { sid: res.data.sid, people: people, logedinUser: '프리모' };
+        const people = await axios.get(
+            'http://127.0.0.1:3000/getUsers',
+        );
+        console.log('type@#@#@type', people);
+        return { sid: res.data.sid, people:people.data };
     }
 
     state = {

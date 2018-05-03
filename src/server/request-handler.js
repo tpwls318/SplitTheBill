@@ -15,7 +15,16 @@ exports.testGet = function(req, res) {
     console.log('@@@@@@@@@');
     res.send('Hello Get!!!!');
 }
-
+exports.getUsers = (req, res) => {
+    User.findAll({
+        where:{}
+    }).then( users => {
+        console.log(`id: ${req.session}`);
+        
+        console.log(users.map( user=>user.userID).filter( userID => userID&&(userID!=req.session.displayID) ))
+        res.send(users.map( user=>user.userID).filter( userID => userID&&(userID!==req.session.displayID)))
+    } )
+}
 exports.deleteRow = (req, res) => {
     console.log(`req.body!!!!!!@@@@@ ${req.body}`);
     
@@ -96,15 +105,18 @@ const _mealMap = async (meals, data) => {
         })  
     })
 }
-exports.createRoom = (req, res) => {
+exports.createRoom = async(req, res) => {
     console.log(req.body);
-    
-    req.body.people.push(req.body.logedinUser)
+    req.body.people.push(req.session.displayID)
     _addRoom(req.body.roomname, req.body.people)
     res.send('room added')
 }
 
 exports.getRooms = (req, res) => {
+    // const { userID } = req.body;
+    const { userID } = {userID: req.session.displayID};
+    console.log(`userID : ${req.session.displayID}`);
+
     Room.findAll({
         where: {
         },
@@ -113,15 +125,20 @@ exports.getRooms = (req, res) => {
                 model: User,
                 through: {
                 attributes: ['name'],
+                },
+                where: {
+                    userID
                 }
             }
         ]
     }).then( rooms => {
         rooms = rooms.map( room => room.name )
         const data = {
-            rooms: rooms,
+            rooms,
             sid: req.session.sid
         }
+        console.log(`data : ${data.rooms}`);
+        
         res.send(data)
     }).then(function () {
         console.log('Everything worked, check the database.');
@@ -151,7 +168,8 @@ exports.testPost = async (req, res) => {
         받을 N(${userArr.length+1})빵머니 : ${req.body.amount / (userArr.length+1)},
         빛장이들:${userArr}
     }`);
-    let room = await _addRoom( req.body.roomname, people);
+    // let users = await _getUsers();
+    // let room = await _addRoom( req.body.roomname, people);
     let table = await _addTable( req.body, userArr );
     let mealRoom = await _addMealtoRoom( req.body.roomname, req.body.name );
     let toFrom = await _addToFrom( userArr, req.body.logedinUser, req.body.amount/(userArr.length+1) );
@@ -225,7 +243,7 @@ const _addRoom = ( name, people ) => {
         });
     })
 }
- _addMealtoRoom = (roomname, name) => {
+ const _addMealtoRoom = (roomname, name) => {
     return Room.findOne({
         where: { 
           name: roomname
@@ -298,6 +316,7 @@ const _addRoom = ( name, people ) => {
         });
     })
 }
+
 exports.signup = (req, res) => {
     res.send('/');
     // bcrypt.hash(req.body.password, null, null, function(err, hash) {
@@ -383,7 +402,14 @@ exports.handleConfirmId = function(req, res) {
 }
 
 exports.getSid = function(req, res) {
-    res.json({sid: req.session.sid});
+    
+    console.log(`req.session.displayID , ${req.session.displayID}`);
+    // res.send({a:1});
+    req.session.save( ()=>{
+        const { displayID }= req.session;
+        res.send(displayID);
+    })
+    
 }
 exports.logout = function(req, res) {
     delete req.session.sid;
@@ -406,8 +432,8 @@ exports.handleLogin = function(req, res) {
                     if(truth) {
                         console.log('login success');
                         req.session.displayID = userID;
+                        req.session.save( ()=>res.send(req.session))
                         console.log('sssssssssssssssss',req.session);
-                        res.send(req.session);
                         return;
                     } else {
                         console.log('login fail');

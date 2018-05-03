@@ -88,6 +88,7 @@ app.prepare()
 //       })
 // );
   server.post('/getTables', reqHandler.getTables);
+  server.get('/getUsers', reqHandler.getUsers);
   server.post('/test', reqHandler.testPost);
   server.post('/login', reqHandler.handleLogin);
   server.post('/signup', reqHandler.handleSignup);
@@ -96,6 +97,7 @@ app.prepare()
   server.post('/createRoom', reqHandler.createRoom);
   server.post('/deleteTable', reqHandler.deleteTable);
   server.post('/deleteRow', reqHandler.deleteRow);
+
   
   server.get('*', (req, res) => {
     return handle(req, res)
