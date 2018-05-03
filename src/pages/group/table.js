@@ -8,6 +8,7 @@ import axios from 'axios';
 
 class Table extends React.Component {
     static async getInitialProps (props) { 
+        const check = !!props.req.session.displayID ? true : false;
         const res = await axios({
             method: 'post',
             url: 'http://127.0.0.1:3000/getTables',
@@ -18,10 +19,11 @@ class Table extends React.Component {
         }).catch( (err) => {
             if(err) console.log('this is table err', err);
         });
-        console.log('type@#@#@type', typeof res.data.sid);
+        // console.log('type@#@#@type', typeof res.data.sid);
         return {
             data: res.data.tables,
-            sid: res.data.sid
+            sid: res.data.sid,
+            check
         }
     }
 
@@ -40,12 +42,12 @@ class Table extends React.Component {
     // }
     handleCheck = (e) => {
         const checked = this.state.checked;
-        console.log(this.props.data[0]);
-        console.log(e.target.checked);
+        // console.log(this.props.data[0]);
+        // console.log(e.target.checked);
         let data = this.props.data[0];
         if(e.target.checked) {
             checked[e.target.value] = this.props.data[0].members[e.target.value.slice(2)];
-            Axios.post('http://127.0.0.1:3000/deleteRow',
+            axios.post('http://127.0.0.1:3000/deleteRow',
             { 
                 from: checked[e.target.value], 
                 to:data.buyer, 
@@ -66,10 +68,8 @@ class Table extends React.Component {
 
 
     render() {
-        console.log('table',this.props.sid);
-        
         return (
-            <Layout sid={this.props.sid}>
+            <Layout close={this.props.check}>
                 <Container>
                     <RoomHead>
                         <Name>

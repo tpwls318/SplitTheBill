@@ -13,7 +13,7 @@ var options = {
   host: 'localhost',
   port: 3306,
   user: 'root',
-  password: null,
+  password: 'kkhs1125',
   database: 'bob',
 };
 var util = require('./util').checkUser;
@@ -68,6 +68,11 @@ app.prepare()
     const actualPage = '/group/table'
     const queryParams = { title: req.params.title }
     app.render(req, res, actualPage, queryParams)
+  })
+
+  server.get('/group', (req, res) => {
+    const actualPage = '/group'
+    app.render(req, res, actualPage)
   })
 
   server.get('/test', reqHandler.testGet);

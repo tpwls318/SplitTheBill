@@ -9,12 +9,14 @@ import ContentAdd from 'material-ui/svg-icons/content/add';
 class Good extends React.Component {
 
     static async getInitialProps ({ req }) {
+        const check = !!req.session.displayID ? true : false;
         const res = await axios({
             url: 'http://127.0.0.1:3000/getRooms',
+            data:{
+            },
             headers: req ? {cookie: req.headers.cookie} : undefined,
         });
-        console.log('type@#@#@type', typeof res.data.sid);
-        return { sid: res.data.sid, groups: res.data.rooms };
+        return { sid: res.data.sid, groups: res.data.rooms, check };
         // const groups = await axios.get('http://127.0.0.1:3000/getRooms')
         // .catch( (err) => {
         //     if( err ) console.log('this is index Err!!!',err);
@@ -27,10 +29,8 @@ class Good extends React.Component {
     }
 
     render() {
-        
         return (
-            <Layout sid={this.props.sid}>
-            {console.log('!@#$%$#@!@#$%', this.props.sid)}
+            <Layout close={this.props.check}>
                 <AddButton>
                     <Link href="/group/addGroup">
                     <ContentAdd style={{ color:'white', height:'56px' }} />

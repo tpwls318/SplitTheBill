@@ -9,23 +9,29 @@ import styled from 'styled-components';
 
 export default class extends React.Component {
     static async getInitialProps ({ req }) {
-        if (req) {
-            //console.log('on server, need to copy cookies from req')
-        } else {
-            //console.log('on client, cookies are automatic')
-        }
+        let check;
+        if(req) check = !!req.session.displayID ? true : false;
         const res = await axios({
             url: 'http://127.0.0.1:3000/getsid',
             headers: req ? {cookie: req.headers.cookie} : undefined,
         });
-        return { sid: res.data.sid };
+        return { 
+            sid: res.data.sid,
+            check
+         };
     }
 
     state = {
         userID: '',
-        password: ''
+        password: '',
     }
 
+    handleClose = () => {
+        this.setState({
+            password: e.target.value
+        })
+    }
+    
     handleChangeId = (e) => {
         console.log(e.target.value);
         this.setState({
@@ -42,14 +48,12 @@ export default class extends React.Component {
     
     handleClick = () => {
         const data = this.state;
-        console.log(data);
+        // console.log(data);
         
         axios.post('/login', data).then(function (response) {
             console.log('displayid!!!!!',response.data.displayID);
             if(response.data.displayID) {
                 alert('success');
-                console.log(`Hello ${response.data.displayID}`);
-                
                 Router.replace('/');
             } else if(response.data === false) {
                 alert('비밀번호 틀림');
@@ -64,8 +68,9 @@ export default class extends React.Component {
     }
  
     render() {
+        console.log('dfdfdfd',this.props.check);
       return (
-        <Layout sid={this.props.sid}>
+        <Layout close={this.props.check}>
             <Container>
                 <Col>
                     <Input type="text" placeholder="Your id" onChange={this.handleChangeId}/>

@@ -189,7 +189,7 @@ exports.testPost = async (req, res) => {
 
 const _addRoom = ( name, people ) => {
     return db.sequelize.sync({
-        force: false
+        force: true
     }).then(function() {
         // Step One: Create a Room
         Room.findOrCreate({
@@ -386,14 +386,16 @@ exports.getSid = function(req, res) {
     res.json({sid: req.session.sid});
 }
 exports.logout = function(req, res) {
-    delete req.session.sid;
+    delete req.session.displayID;
     console.log(req.session);
-    res.redirect('/');
+    req.session.save(()=>{
+        res.redirect('/');
+    }) 
 }
 
 exports.handleLogin = function(req, res) {
-    console.log('$$$$$$$');
-    console.log(req.body);
+    // console.log('$$$$$$$');
+    // console.log(req.body);
     const { userID, password } = req.body;
     db.User.findOne({
         where: { userID }
@@ -406,7 +408,6 @@ exports.handleLogin = function(req, res) {
                     if(truth) {
                         console.log('login success');
                         req.session.displayID = userID;
-                        console.log('sssssssssssssssss',req.session);
                         res.send(req.session);
                         return;
                     } else {

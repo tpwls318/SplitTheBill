@@ -7,11 +7,8 @@ import Router from 'next/router';
 
 class addTable extends React.Component {
     static async getInitialProps (props) {
-        console.log('fdfdfdfdfdfdfd',props.query.title);
         const res = await axios({
             url: 'http://127.0.0.1:3000/getsid',
-            // manually copy cookie on server,
-            // let browser handle it automatically on client
             headers: props.req ? {cookie: props.req.headers.cookie} : undefined,
         });
         console.log('type@#@#@type', typeof res.data.sid);
