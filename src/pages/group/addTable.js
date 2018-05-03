@@ -4,21 +4,26 @@ import styled from 'styled-components';
 import Insert from '../../components/group/UserInsert.js';
 import Link from 'next/link';
 import Router from 'next/router';
+import { log } from 'util';
 
 class addTable extends React.Component {
     static async getInitialProps (props) {
-        console.log('fdfdfdfdfdfdfd',props.query.title);
         const res = await axios({
-            url: 'http://127.0.0.1:3000/getsid',
-            // manually copy cookie on server,
-            // let browser handle it automatically on client
-            headers: props.req ? {cookie: props.req.headers.cookie} : undefined,
+            url: 'http://127.0.0.1:3000/getSid',
         });
-        console.log('type@#@#@type', typeof res.data.sid);
-        const people = await ['전한길', '서의환', '한영재', '이원복', '백영재', '박세진', '이준표', '이슬', '김재현', '춘봉안'];
-        let roomname= props.query.title, logedinUser= props.req.session.displayID;
-        const sid = res.data.sid;
-        return { sid, people, roomname, logedinUser};
+        
+        console.log('resresrserseresrserserserserseresr', props);
+        // const people = await ['전한길', '서의환', '한영재', '이원복', '백영재', '박세진', '이준표', '이슬', '김재현', '춘봉안'];
+        let roomname = props.query.title;
+        let people = await axios.post('http://127.0.0.1:3000/getRoomMembers',{roomname})
+        people = people.data;
+        let logedinUser = people[0];
+        if(props.req) {
+            logedinUser = props.req.session.displayID;
+            console.log(res.data.displayID);
+        }
+
+        return { people, roomname, logedinUser};
     }
     state = {
         checked: {},
@@ -79,7 +84,7 @@ class addTable extends React.Component {
 
     render() {
       return (
-        <Layout sid={this.props.sid}>
+        <Layout>
             <Container>
                 <Input type="text" placeholder="Tablename" onChange={this.handleChangeName}/>
                 <Input type="text" placeholder="Amount" onChange={this.handleChangeAmount}/>

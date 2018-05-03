@@ -8,6 +8,8 @@ import axios from 'axios';
 
 class Table extends React.Component {
     static async getInitialProps (props) { 
+        let check;
+        if(props.req) check = !!props.req.session.displayID;
         const res = await axios({
             method: 'post',
             url: 'http://127.0.0.1:3000/getTables',
@@ -18,10 +20,13 @@ class Table extends React.Component {
         }).catch( (err) => {
             if(err) console.log('this is table err', err);
         });
-        console.log('type@#@#@type', typeof res.data.sid);
+        if(props.req) console.log('idididididididididid',props.req.session.displayID);
+        
         return {
             data: res.data.tables,
-            sid: res.data.sid
+            sid: res.data.sid,
+            check,
+            // displayID: props.req.session.displayID
         }
     }
 
@@ -40,11 +45,14 @@ class Table extends React.Component {
     // }
     handleCheck = (e) => {
         const checked = this.state.checked;
-        console.log(this.props.data[0]);
-        console.log(e.target.checked);
-        let data = this.props.data[0];
+        console.log(this.props.data);
+        // console.log(e.target.checked);
+        
+        let index = e.target.value.split(':')[1];
+        let mealIndex = e.target.value.split(':')[2];
+        let data = this.props.data[mealIndex];
         if(e.target.checked) {
-            checked[e.target.value] = this.props.data[0].members[e.target.value.slice(2)];
+            checked[e.target.value] = data.members[index];
             axios.post('http://127.0.0.1:3000/deleteRow',
             { 
                 from: checked[e.target.value], 
@@ -66,22 +74,25 @@ class Table extends React.Component {
 
 
     render() {
-        console.log('table',this.props.sid);
-        
+        const group = this.props.url.query.title;
         return (
-            <Layout sid={this.props.sid}>
+            <Layout close={this.props.check}>
                 <Container>
                     <RoomHead>
                         <Name>
                             {this.props.url.query.title}
                         </Name>
-                        <AddMeal>
-                            <GroupTable group={this.props.url.query.title} />
-                        </AddMeal>
+
+                            {/* <GroupTable group={this.props.url.query.title} /> */}
+                            <Link prefetch as={`/group/addTable/${this.props.url.query.title}`} href={`/group/addTable?title=${this.props.url.query.title}`}>
+                                <div>+table</div>
+                            </Link>
+
                     </RoomHead>
                     {this.props.data.map( (item, index) => (
                         <TableInfo 
                         meal={item} 
+                        mealIndex={index}
                         key={index}
                         checked={this.state.checked}
                         onClick={ this.handleCheck } />
@@ -94,17 +105,17 @@ class Table extends React.Component {
 
 
 const GroupTable = ({group}) => (
-    <span>
-      <Link prefetch as={`/group/addTable/${group}`} href={`/group/addTable?title=${group}`}>
+    
+     <Link prefetch as={`/group/addTable/${group}`} href={`/group/addTable?title=${group}`}>
         <div>+table</div>
       </Link>
-    </span>
+
   )
 
-const TableInfo = ({ checked,  onClick, meal }) => (
+const TableInfo = ({ checked,  onClick, meal, mealIndex }) => (
     <div>
         <Groupheader meal={meal}/>
-        <CheckBox meal={meal} checked={checked} onClick={onClick}  />
+        <CheckBox meal={meal} checked={checked} onClick={onClick} mealIndex={mealIndex} />
     </div>
   )
 

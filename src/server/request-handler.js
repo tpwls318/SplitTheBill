@@ -15,16 +15,38 @@ exports.testGet = function(req, res) {
     console.log('@@@@@@@@@');
     res.send('Hello Get!!!!');
 }
+
 exports.getUsers = (req, res) => {
     User.findAll({
         where:{}
     }).then( users => {
         console.log(`id: ${req.session}`);
-        
         console.log(users.map( user=>user.userID).filter( userID => userID&&(userID!=req.session.displayID) ))
         res.send(users.map( user=>user.userID).filter( userID => userID&&(userID!==req.session.displayID)))
     } )
 }
+
+exports.getRoomMembers = (req, res) => {
+    const {roomname} = req.body
+    User.findAll({
+        where:{},
+        include:[
+            {
+                model: Room,
+                through: {
+                attributes: ['name'],
+                },
+                where: {
+                    name: roomname,
+                }
+            }
+        ]
+    }).then( users => {
+        console.log('usermap',users.map( user=>user.userID).filter( userID => userID&&(userID!=req.session.displayID) ))
+        res.send(users.map( user=>user.userID).filter( userID => userID&&(userID!==req.session.displayID)))
+    } )
+}
+
 exports.deleteRow = (req, res) => {
     console.log(`req.body!!!!!!@@@@@ ${req.body}`);
     
@@ -34,7 +56,7 @@ exports.deleteRow = (req, res) => {
     
     User.findOne({
         where:{
-            name: from
+            userID: from
         }
     }).then( user => {
         UserMeal.destroy({
@@ -100,15 +122,17 @@ const _mealMap = async (meals, data) => {
                 }
             ]
         }).then( users => {
-            users = users.map( user => user.name)
-            data.push( Object.assign(meal.dataValues, {members: users}) )    
+            let members = users.map( user => user.userID)
+            data.push( Object.assign(meal.dataValues, {members}) )    
         })  
     })
 }
 exports.createRoom = async(req, res) => {
-    console.log(req.body);
-    req.body.people.push(req.session.displayID)
-    _addRoom(req.body.roomname, req.body.people)
+    const {people, roomname} = req.body;
+    console.log('people!!!!!! : ',people);
+    
+    if(people.includes(req.session.displayID)) people.push(req.session.displayID)
+    _addRoom(roomname, people)
     res.send('room added')
 }
 
@@ -162,7 +186,7 @@ exports.testPost = async (req, res) => {
     console.log('$$$$$$$');
     let userArr = req.body.people;
     userArr = userArr.filter( user=> user!==req.body.logedinUser);
-    console.log(`${req.body.name}: { 
+    console.log(`${req.body.name} (${req.body.roomname}): { 
         쏜사람 : ${req.body.logedinUser}, 
         쏘아올린돈 : ${req.body.amount} , 
         받을 N(${userArr.length+1})빵머니 : ${req.body.amount / (userArr.length+1)},
@@ -185,20 +209,21 @@ exports.testPost = async (req, res) => {
             name: table.name,
             amount: table.amount,
             buyer: table.logedinUser
-        }).then(function (meal) {
+        }).then( (meal) => ( 
             // Step Two: Create User
             User.findAll({
                 where: { 
-                  name:  {
+                  userID:  {
                       $in : people
                     }
                 }
               }).then( users => {  
-                meal.addUsers(users)
+                console.log('user!@#@!#!@#@!$!@$!@$@!$@!$!@',users);
+                
+                return meal.addUsers(users)
               })
-        }).then(function () {
-            console.log('Everything worked, check the database.');
-            _countPeople();
+        )).then(function () {
+            console.log('Everything worked in addTable, check the database.');
         }).catch(function () {
             console.log('Something went wrong. Catch was executed.');
         });
@@ -220,20 +245,16 @@ const _addRoom = ( name, people ) => {
             console.log(room.get({
             plain: true
             }), created)
-            return people.map( person => {
-                User.findOrCreate({
-                    where: {
-                        name: person,
-                    }, 
-                })
-                .spread((user, created) => {
-                    console.log('////////////////');
-                    console.log(user.get({
-                    plain: true
-                    }))
-                    console.log(created)
-                    return room.addUsers([user]); 
-                })
+            User.findAll({
+                where: {
+                    userID: {
+                        $in : people
+                    }
+                }, 
+            })
+            .then( users => {
+                console.log(users.map(user=>user.userID));
+                return room.addUsers(users); 
             })
         })
         .then(function () {
@@ -412,14 +433,16 @@ exports.getSid = function(req, res) {
     
 }
 exports.logout = function(req, res) {
-    delete req.session.sid;
+    delete req.session.displayID;
     console.log(req.session);
-    res.redirect('/');
+    req.session.save(()=>{
+        res.redirect('/');
+    }) 
 }
 
 exports.handleLogin = function(req, res) {
-    console.log('$$$$$$$');
-    console.log(req.body);
+    // console.log('$$$$$$$');
+    // console.log(req.body);
     const { userID, password } = req.body;
     db.User.findOne({
         where: { userID }

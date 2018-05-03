@@ -11,8 +11,6 @@ class addGroup extends React.Component {
         // const people = await ['전한길', '서의환', '한영재', '이원복', '백영재', '박세진', '이준표', '이슬', '김재현', '이춘봉'];
         const res = await axios({
             url: 'http://127.0.0.1:3000/getsid',
-            // manually copy cookie on server,
-            // let browser handle it automatically on client
             headers: req ? {cookie: req.headers.cookie} : undefined,
         });
         const people = await axios.get(
@@ -63,8 +61,7 @@ class addGroup extends React.Component {
         console.log('this is addgroup data',data);
         axios.post( 'http://127.0.0.1:3000/createRoom', data)
         .then( (res) => {
-              console.log('gogogogogogogogogogogoggogogo',res);
-              Router.replace(`/group`);
+              Router.replace(`/`);
           })
         .catch( (err) => {
             if( err ) console.log('this is addGroup Err!!!',err);

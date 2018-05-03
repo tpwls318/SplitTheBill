@@ -10,7 +10,8 @@ import axios from 'axios';
 
 
 class Index extends Component {
-    static async getInitialProps ({ req }) {
+    static async getInitialProps ({req}) {
+        const check = !!req.session.displayID ? true : false;
         const users = [
             { name: '기리보이' , money: '12000'},
             { name: '고수' , money: '3000'},
@@ -18,19 +19,16 @@ class Index extends Component {
         ];
         const res = await axios({
             url: 'http://127.0.0.1:3000/getsid',
-            // manually copy cookie on server,
-            // let browser handle it automatically on client
             headers: req ? {cookie: req.headers.cookie} : undefined,
         });
-        console.log('type@#@#@type', typeof res.data.sid);
-        return { sid: res.data.sid, users: users };
-        
+        console.log('on profile ',req.session);
+        return { sid: res.data.sid, users: users, check };
     }
 
     render() {
         
         return (
-            <Layout sid={this.props.sid}>
+            <Layout close={this.props.check}>
             <Container>
                 <UserProfile />
             </Container>

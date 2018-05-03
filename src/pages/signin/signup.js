@@ -4,21 +4,14 @@ import axios from'axios';
 // import redirect from '../../lib/redirect';
 import styled from 'styled-components';
 import Router from 'next/router';
-import Icon from '../../lib/DoneIcon.js'
+import Icon from '../../lib/DoneIcon.js';
 
 export default class extends React.Component {
     static async getInitialProps ({ req }) {
-        console.log('$%$%$%$%$%$%$%0');
-        if (req) {
-            //console.log('on server, need to copy cookies from req')
-        } else {
-            //console.log('on client, cookies are automatic')
-        }
         const res = await axios({
             url: 'http://127.0.0.1:3000/getsid',
             headers: req ? {cookie: req.headers.cookie} : undefined,
         });
-        console.log('type@#@#@type', typeof res.data.sid);
         return { sid: res.data.sid };
     }
     state = {
@@ -111,11 +104,13 @@ export default class extends React.Component {
                 <Col>
                     <Button google > <Iname class="fa fa-google fa-fw">G</Iname> Login with Google+ </Button>
                     <Input type="text" placeholder="User Name" onChange={this.handleChangeName}/>
-                    <Input type="text" primary placeholder="User Id" onChange={this.handleChangeId}/>
-                    {this.state.confirmedId ? <Checked>checked</Checked> : <Button primary onClick={this.handleClickCI}>
-                    <Content><Icon /></Content>
-                    <Message>Check</Message>
-                    </Button>}
+                    <UserId>
+                        <Input type="text" primary placeholder="User Id" onChange={this.handleChangeId}/>
+                        {this.state.confirmedId ? <Checked>checked</Checked> : <Button primary onClick={this.handleClickCI}>
+                        <Content><Icon /></Content>
+                        <Message>Check</Message>
+                        </Button>}
+                    </UserId>
                     <Input type="password" placeholder="User PassWord" onChange={this.handleChangePW}/>
                     <Input type="password" placeholder="Confirm PassWord" onChange={this.handleChangeCpw}/>
                     <Button onClick={this.handleClick}>Sign up</Button>
@@ -134,6 +129,10 @@ const Container = styled.div`
 const Col = styled.div`
     margin: auto;
     padding: 50px;
+`
+const UserId = styled.div`
+    display: flex;
+    justify-content: center;
 `
 
 const Input = styled.input`
@@ -175,7 +174,7 @@ const Iname = styled.i`
 
 const Button = styled.button`
     width: ${props => props.primary ? '10%' : '100%'};
-    padding: 12px;
+    padding: ${props => props.primary ? '8px' : '12px'};
     border: none;
     border-radius: 4px;
     margin: 5px 0;
@@ -201,7 +200,8 @@ const Message = styled.div`
 `
 const Content = styled.div`
     display: none;
+    margin: 0 auto;
     @media (max-width: 800px) {
-        display: flex;
+        display: block;
     };
 `

@@ -13,6 +13,7 @@ var options = {
   host: 'localhost',
   port: 3306,
   user: 'root',
+  // password: 'kkhs1125',
   password: null,
   database: 'bob',
 };
@@ -70,13 +71,18 @@ app.prepare()
     app.render(req, res, actualPage, queryParams)
   })
 
+  server.get('/group', (req, res) => {
+    const actualPage = '/group'
+    app.render(req, res, actualPage)
+  })
+
   server.get('/test', reqHandler.testGet);
   server.get('/tmp', reqHandler.tmp);
   server.get('/getRooms', reqHandler.getRooms);
   server.get('/logout', reqHandler.logout);
   server.get('/getSid', reqHandler.getSid);
   server.get('/getFriends', reqHandler.getFriends);
-
+  server.get('/getUsers', reqHandler.getUsers);
 //   server.post(
 //     '/login',
 //     passport.authenticate(
@@ -88,7 +94,7 @@ app.prepare()
 //       })
 // );
   server.post('/getTables', reqHandler.getTables);
-  server.get('/getUsers', reqHandler.getUsers);
+  server.post('/getRoomMembers', reqHandler.getRoomMembers);
   server.post('/test', reqHandler.testPost);
   server.post('/login', reqHandler.handleLogin);
   server.post('/signup', reqHandler.handleSignup);
